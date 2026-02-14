@@ -70,6 +70,7 @@ section {
 }
 
 h2 {
+    text-align: center;
     color: #5D4037;
 }
 
@@ -204,7 +205,7 @@ td, th {
 }
 
 .product-card {
-    width: 250px;
+    width: 195px;
     background-color: white;
     padding: 20px;
     border-radius: 20px;
