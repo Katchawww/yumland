@@ -4,7 +4,6 @@ body {
     background-image: url("../images/fond-tropical.png");
     background-repeat: repeat;
     background-size: 1000px;
-    color: #333;
 }
 
 /* HEADER */
@@ -166,7 +165,7 @@ input[type="text"] {
 }
 
 .form input {
-    width: 100%;
+    width: 95%;
     padding: 10px;
     margin: 8px 0 15px 0;
 }
@@ -218,7 +217,7 @@ td, th {
     border-radius: 15px;
     margin-top: 15px;
 
-    opacity: 0;
+    opacity: 0.3;
     transform: scale(0.9);
     transition: 0.3s;
 }
