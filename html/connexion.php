@@ -18,7 +18,7 @@ foreach($users as $user){
 
 }
 
-echo "Login incorrect";
+$error = "Login incorrect";
 }
 ?>
 <!DOCTYPE html>
@@ -53,10 +53,10 @@ echo "Login incorrect";
     <br><br>
     <form class="form" method="POST" action="connexion.php">
         <label>Email</label>
-        <input type="email" name="login" placeholder="exemple@mail.com">
+        <input type="email" name="login" required placeholder="exemple@mail.com">
 
         <label>Mot de passe</label>
-        <input type="password" name="password" placeholder="••••••••">
+        <input type="password" name="password" required placeholder="••••••••">
 
         <button type="submit">Se connecter</button>
 
@@ -64,6 +64,9 @@ echo "Login incorrect";
             Pas encore de compte ?
         <a href="inscription.php">S’inscrire</a></nav>
         </p>
+        <p style="color: red; text-align: center; margin-top: 15px;">
+        <?php if(isset($error)) echo $error; ?>
+    </p>
     </form>
 </section>
 <br><br><br><br><br>

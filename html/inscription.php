@@ -1,4 +1,27 @@
-<?php session_start(); ?>
+<?php session_start();
+include("fonctions.php");
+
+if(isset($_POST["login"]) && isset($_POST["password"]) && isset($_POST["name"])){
+
+    $users = readData("json/utilisateurs.json");
+
+
+    $newUser = [
+        "id" => count($users)+1,
+        "login" => $_POST["login"],
+        "password" => $_POST["password"],
+        "role" => "client",
+        "name" => $_POST["name"]
+    ];
+
+    $users[] = $newUser;
+
+    saveData("json/utilisateurs.json", $users);
+
+    header("Location: connexion.php");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -28,15 +51,15 @@
     <h1>📝 Inscription</h1>
     <p>Créez votre compte pour commander plus rapidement</p>
 
-    <form class="form">
+    <form class="form" method="POST" action="inscription.php">
         <label>Nom</label>
-        <input type="text" placeholder="Votre nom">
+        <input type="text" placeholder="Votre nom" name="name" required>
 
         <label>Prénom</label>
         <input type="text" placeholder="Votre prénom">
 
         <label>Email</label>
-        <input type="email" placeholder="exemple@mail.com">
+        <input type="email" placeholder="exemple@mail.com" name="login" required>
 
         <label>Téléphone</label>
         <input type="tel" placeholder="06 12 34 56 78">
@@ -44,13 +67,13 @@
         <label>Adresse</label>
         <input type="text" placeholder="Adresse complète">
 
-        <label>Informations complémentaires</label>
-        <input type="text" placeholder="Code, étage, commentaire...">
+        <label>Mot de passe</label>
+        <input type="text" placeholder="Mot de Passe" name="password" required>
 
         <button type="submit">S'inscrire</button>
         <nav><p style="text-align:center; margin-top:15px;">
             Déja inscrit ?
-            <a href="connexion.html">Se connecter</a></nav>
+            <a href="connexion.php">Se connecter</a></nav>
         </p>
     </form>
 </section>
