@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -15,9 +16,9 @@
     <img src="https://static.vecteezy.com/system/resources/previews/031/122/692/non_2x/france-and-brazil-flags-two-flags-vector.jpg" alt="Drapeaux France et Brésil" style="height: 100px; margin-left: 20px; border-radius: 5px; width: 350px;">
 
     <nav>
-        <a href="index.html">Accueil</a>
-        <a href="livraison.html">Livraison</a>
-        <a href="index.html">Déconnexion</a>
+        <a href="index.php">Accueil</a>
+        <a href="livraison.php">Livraison</a>
+        <a href="index.php">Déconnexion</a>
     </nav>
 </header>
 

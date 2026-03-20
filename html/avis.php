@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -16,9 +17,9 @@
 
 
     <nav>
-        <a href="index.html">Accueil</a>
-        <a href="profil.html">Profil</a>
-        <a href="index.html">Deconnexion</a>
+        <a href="index.php">Accueil</a>
+        <a href="profil.php">Profil</a>
+        <a href="index.php">Deconnexion</a>
     </nav>
 </header>
 

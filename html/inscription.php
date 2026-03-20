@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -15,10 +16,10 @@
 
 
     <nav>
-        <a href="index.html">Accueil</a>
-        <a href="produits.html">Plats</a>
-        <a href="inscription.html">Inscription</a>
-        <a href="connexion.html">Connexion</a>
+        <a href="index.php">Accueil</a>
+        <a href="produits.php">Plats</a>
+        <a href="inscription.php">Inscription</a>
+        <a href="connexion.php">Connexion</a>
     </nav>
 </header>
 
