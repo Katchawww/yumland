@@ -24,7 +24,7 @@
 
 <!-- CONTENU -->
 <section>
-    <h1>💬 Avis</h1>
+    <h1>  Avis</h1>
     <p>Laissez un avis croustillant de votre commande Copa Cabanane</p>
     <br><br>
     <form class="form">
@@ -35,7 +35,7 @@
 
     </form>
 </section>
-<br><br><br><br><br><br><br>
+<br><br><br><br><br>
 
 <!-- FOOTER -->
 <footer>

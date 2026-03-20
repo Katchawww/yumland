@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -17,10 +16,10 @@
     <img src="https://static.vecteezy.com/system/resources/previews/031/122/692/non_2x/france-and-brazil-flags-two-flags-vector.jpg" 
     alt="Drapeaux France et Brésil" style="height: 100px; margin-left: 20px; border-radius: 5px; width: 350px;">
     <nav>
-        <a href="index.html" title="aller à l'accueil">Accueil</a>
-        <a href="produits.html" title="aller aux plats">Plats</a>
-        <a href="inscription.html" title="pour s'inscrire">Inscription</a>
-        <a href="connexion.html" title="pour se connecter">Connexion</a>
+        <a href="index.php" title="aller à l'accueil">Accueil</a>
+        <a href="produits.php" title="aller aux plats">Plats</a>
+        <a href="inscription.php" title="pour s'inscrire">Inscription</a>
+        <a href="connexion.php" title="pour se connecter">Connexion</a>
     </nav>
 </header>
 
@@ -43,17 +42,17 @@
     <nav>
     <div class="cards">
         <div class="card">
-            <h3><a href="produits.html#burger">🍌 Burger Cabanane</a></h3>
+            <h3><a href="produits.php#burger">🍌 Burger Cabanane</a></h3>
             <p>Banane rôtie, steak, sauce maison</p>
         </div>
 
         <div class="card">
-            <h3><a href="produits.html#poulet">🌴 Frango tropical</a></h3>
+            <h3><a href="produits.php#poulet">🌴 Frango tropical</a></h3>
             <p>Mariné aux épices exotiques</p>
         </div>
 
         <div class="card">
-            <h3><a href="produits.html#smoothie">🍹 Smoothie banana</a></h3>
+            <h3><a href="produits.php#smoothie">🍹 Smoothie banana</a></h3>
             <p>Frais et 100% naturel</p>
         </div>
     </div>

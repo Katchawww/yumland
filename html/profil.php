@@ -31,9 +31,9 @@
     <!-- INFOS UTILISATEUR -->
     <div class="card">
         <h2>📋 Informations personnelles</h2>
-        <p><b>Nom :</b> Dupont ✏️</p>
-        <p><b>Prénom :</b> Jean ✏️</p>
-        <p><b>Email :</b> jean.dupont@mail.com ✏️</p>
+        <p><b>Nom :</b> Escobar ✏️</p>
+        <p><b>Prénom :</b> Pablo ✏️</p>
+        <p><b>Email :</b> pablo.escobar@mail.com ✏️</p>
         <p><b>Téléphone :</b> 06 12 34 56 78 ✏️</p>
         <p><b>Adresse :</b> 12 rue du Soleil, Rio De Janeiro ✏️</p>
     </div>

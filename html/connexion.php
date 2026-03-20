@@ -1,3 +1,26 @@
+<?php
+session_start();
+include("fonctions.php");
+
+if(isset($_POST["login"]) && isset($_POST["password"])){
+$users = readData("json/utilisateurs.json");
+
+foreach($users as $user){
+
+ if($user["login"] == $_POST["login"] &&
+    $user["password"] == $_POST["password"]){
+
+    $_SESSION["user"] = $user;
+
+    header("Location: ../profil.php");
+    exit;
+ }
+
+}
+
+echo "Login incorrect";
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -16,10 +39,10 @@
 
 
     <nav>
-        <a href="index.html">Accueil</a>
-        <a href="produits.html">Menu</a>
-        <a href="inscription.html">Inscription</a>
-        <a href="connexion.html">Connexion</a>
+        <a href="index.php">Accueil</a>
+        <a href="produits.php">Menu</a>
+        <a href="inscription.php">Inscription</a>
+        <a href="connexion.php">Connexion</a>
     </nav>
 </header>
 
@@ -28,18 +51,18 @@
     <h1>🔐 Connexion</h1>
     <p>Connectez-vous à votre compte Copa Cabanane</p>
     <br><br>
-    <form class="form">
+    <form class="form" method="POST" action="connexion.php">
         <label>Email</label>
-        <input type="email" placeholder="exemple@mail.com">
+        <input type="email" name="login" placeholder="exemple@mail.com">
 
         <label>Mot de passe</label>
-        <input type="password" placeholder="••••••••">
+        <input type="password" name="password" placeholder="••••••••">
 
         <button type="submit">Se connecter</button>
 
         <nav><p style="text-align:center; margin-top:15px;">
             Pas encore de compte ?
-        <a href="inscription.html">S’inscrire</a></nav>
+        <a href="inscription.php">S’inscrire</a></nav>
         </p>
     </form>
 </section>

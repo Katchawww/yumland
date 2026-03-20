@@ -41,23 +41,23 @@
             </tr>
 
             <tr>
-                <td>Dupont</td>
-                <td>Jean</td>
-                <td>jean.dupont@gmail.com</td>
+                <td>Escobar</td>
+                <td>Pablo</td>
+                <td>pablo.escobar@gmail.com</td>
                 <td>Client</td>
             </tr>
 
             <tr>
-                <td>Martin</td>
-                <td>Laura</td>
-                <td>laura.martin@gmail.com</td>
+                <td>Gaviria</td>
+                <td>Emilio</td>
+                <td>emilio.gaviria@gmail.com</td>
                 <td>Client</td>
             </tr>
 
             <tr>
-                <td>Admin</td>
-                <td>Principal</td>
-                <td>admin@copacabanane.fr</td>
+                <td>Jefe</td>
+                <td>De La Empresa</td>
+                <td>jefe@copacabanane.fr</td>
                 <td>Administrateur</td>
             </tr>
         </table>

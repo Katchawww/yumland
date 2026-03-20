@@ -52,6 +52,7 @@
     <h3>Coxinha</h3>
     <p>Beignet de poulet</p>
     <p><b>4 €</b></p>
+    <br>
     <img src="images/coxinha.png" alt="coxinha">
 </div>
 
@@ -66,6 +67,7 @@
     <h3>Pão de Queijo</h3>
     <p>Pain au fromage</p>
     <p><b>4 €</b></p>
+    <br>
     <img src="images/pao.png" alt="pao de queijo">
 </div>
 </section>
@@ -131,6 +133,7 @@
         <h3>Brigadeiro</h3>
         <p>Boule chocolatée</p>
         <p><b>6 €</b></p>
+        <br>
         <img src="images/brigadeiro.png" alt="brigadeiro">
     </div>
 
@@ -138,6 +141,7 @@
         <h3>Quindim</h3>
         <p>Délicieux à la coco et oeufs</p>
         <p><b>6 €</b></p>
+        <br>
         <img src="images/quindim.png" alt="quindim">
     </div>
 
@@ -160,6 +164,7 @@
         <p>Frais et 100 % naturel</p>
         <a id="smoothie"></a>
         <p><b>6 €</b></p>
+        <br>
         <img src="images/smoothie.png" alt="smoothie">
     </div>
 
@@ -167,6 +172,7 @@
         <h3>Caipirinha</h3>
         <p>Citron vert, sucre, cachaça</p>
         <p><b>4 €</b></p>
+        <br>
         <img src="images/caipirinha.png" alt="caipirinha">
     </div>
 
@@ -174,6 +180,7 @@
         <h3>Guaraná</h3>
         <p>Le brésil par excellence</p>
         <p><b>3 €</b></p>
+        <br>
         <img src="images/guarana.png" alt="Guaraná">
     </div>
 
