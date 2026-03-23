@@ -11,11 +11,15 @@ foreach($users as $user){
     $user["password"] == $_POST["password"]){
 
     $_SESSION["user"] = $user;
-
+    if($user["role"] == "admin"){
+        header("Location: ../admin.php");} 
+    else if($user["role"] == "restaurateur"){
+        header("Location: ../restauration.php");}
+    else {
     header("Location: ../profil.php");
     exit;
  }
-
+}
 }
 
 $error = "Login incorrect";

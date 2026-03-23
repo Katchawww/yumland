@@ -1,4 +1,18 @@
-<?php session_start(); ?>
+<?php session_start();
+include("fonctions.php");
+
+// Sécurité : si pas connecté → redirection
+if(!isset($_SESSION["user"])){
+    header("Location: connexion.php");
+    exit;
+}
+if($_SESSION["user"]["role"] != "admin"){
+    echo "Accès refusé";
+    exit;
+}
+
+$users = readData("json/utilisateurs.json");
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -26,7 +40,7 @@
 <!-- ADMIN -->
 <section>
     <h1>🛠️ Administration</h1>
-    <p>Gestion des utilisateurs du site</p>
+    <p><b>Gestion des utilisateurs du site</b></p>
     <br><br>
 
     <!-- UTILISATEURS -->
@@ -39,31 +53,24 @@
                 <th>Prénom</th>
                 <th>Email</th>
                 <th>Rôle</th>
+                <th>Actions</th>
+                <th>Statut</th>
             </tr>
-
+            <?php foreach($users as $user){ ?>
             <tr>
-                <td>Escobar</td>
-                <td>Pablo</td>
-                <td>pablo.escobar@gmail.com</td>
-                <td>Client</td>
+                <td><nav><a href="profil.php?login=<?php echo $user["login"]; ?>"><?php echo $user["name"]; ?></a></nav></td>
+                <td><?php echo $user["surname"]; ?></td>
+                <td><?php echo $user["login"]; ?></td>
+                <td><?php echo $user["role"]; ?></td>
+                <td><nav><a href="modifier.php?login=<?php echo $user["login"]; ?>">✏️ Modifier</a> |
+                <a href="supprimer.php?login=<?php echo $user["login"]; ?>"onclick="return confirm('Supprimer cet utilisateur ?')">🗑️ Supprimer</a></nav></td>
+                <td><?php echo $user["statut"]; ?></td>
             </tr>
-
-            <tr>
-                <td>Gaviria</td>
-                <td>Emilio</td>
-                <td>emilio.gaviria@gmail.com</td>
-                <td>Client</td>
-            </tr>
-
-            <tr>
-                <td>Jefe</td>
-                <td>De La Empresa</td>
-                <td>jefe@copacabanane.fr</td>
-                <td>Administrateur</td>
-            </tr>
+            <?php } ?>
         </table>
     </div>
 </section>
+
 
 <br><br><br><br><br><br>
 

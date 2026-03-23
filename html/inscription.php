@@ -11,7 +11,10 @@ if(isset($_POST["login"]) && isset($_POST["password"]) && isset($_POST["name"]))
         "login" => $_POST["login"],
         "password" => $_POST["password"],
         "role" => "client",
-        "name" => $_POST["name"]
+        "name" => $_POST["name"],
+        "surname" => $_POST["surname"],
+        "phone" => $_POST["phone"],
+        "address" => $_POST["address"]
     ];
 
     $users[] = $newUser;
@@ -56,16 +59,16 @@ if(isset($_POST["login"]) && isset($_POST["password"]) && isset($_POST["name"]))
         <input type="text" placeholder="Votre nom" name="name" required>
 
         <label>Prénom</label>
-        <input type="text" placeholder="Votre prénom">
+        <input type="text" placeholder="Votre prénom" name="surname" required>
 
         <label>Email</label>
         <input type="email" placeholder="exemple@mail.com" name="login" required>
 
         <label>Téléphone</label>
-        <input type="tel" placeholder="06 12 34 56 78">
+        <input type="tel" placeholder="06 12 34 56 78" name="name" required>
 
         <label>Adresse</label>
-        <input type="text" placeholder="Adresse complète">
+        <input type="text" placeholder="Adresse complète" name="address" required>
 
         <label>Mot de passe</label>
         <input type="text" placeholder="Mot de Passe" name="password" required>

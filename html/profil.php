@@ -1,4 +1,31 @@
-<?php session_start(); ?>
+<?php session_start();
+include("fonctions.php");
+
+// Sécurité : si pas connecté → redirection
+if(!isset($_SESSION["user"])){
+    header("Location: connexion.php");
+    exit;
+}
+$users = readData("json/utilisateurs.json");
+
+// Si on clique depuis admin
+if(isset($_GET["login"])){
+
+    $login = $_GET["login"];
+
+    foreach($users as $user){
+        if($user["login"] == $login){
+            $user = $user;
+            break;
+        }
+    }
+
+} else {
+    // sinon profil normal (utilisateur connecté)
+    $user = $_SESSION["user"];
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -27,31 +54,57 @@
 <!-- PROFIL -->
 <section>
     <h1>👤 Mon profil</h1>
-    <p>Bienvenue sur votre espace personnel</p>
+    <p>Bienvenue <?php echo $user ["name"]; ?> 🍌 </p>
 
     <!-- INFOS UTILISATEUR -->
     <div class="card">
         <h2>📋 Informations personnelles</h2>
-        <p><b>Nom :</b> Escobar ✏️</p>
-        <p><b>Prénom :</b> Pablo ✏️</p>
-        <p><b>Email :</b> pablo.escobar@mail.com ✏️</p>
-        <p><b>Téléphone :</b> 06 12 34 56 78 ✏️</p>
-        <p><b>Adresse :</b> 12 rue du Soleil, Rio De Janeiro ✏️</p>
+        <p><b>Nom :</b> <?php echo $user ["name"]; ?>✏️</p>
+        <p><b>Prénom :</b> <?php echo $user ["surname"]; ?> ✏️</p>
+        <p><b>Email :</b> <?php echo $user ["login"]; ?> ✏️</p>
+        <p><b>Téléphone :</b> <?php echo $user ["phone"]; ?>✏️</p>
+        <p><b>Adresse :</b> <?php echo $user ["address"]; ?> ✏️</p>
+        <p><b>Role :</b> <?php echo $user ["role"]; ?></p>
     </div>
 
     <!-- COMMANDES -->
-    <div class="card">
-        <h2>🧾 Mes commandes</h2>
-        <ul>
-            <li>🍌 Burger Cabanane – 12 € (Livrée)</li>
-            <li>🌴 Poulet tropical – 14 € (Livrée)</li>
-            <li>🍹 Smoothie banane – 6 € (Livrée)</li>
-        </ul>
-    </div>
+    <section>
+    <h2>📦 Mes commandes</h2>
+
+    <?php
+    $orders = readData("json/commandes.json");
+
+    $found = false;
+
+    foreach($orders as $order){
+
+        if($order["client"] == $user["login"]){
+
+            $found = true;
+            echo "<div class='card'>";
+            echo "<p>Commande #" . $order["id"] . "</p>";
+            echo "<p>Statut : " . $order["status"] . "</p>";
+
+            echo "<ul>";
+            foreach($order["items"] as $item){
+                echo "<li>Produit ID : ".$item["dish"]." (x".$item["qty"].")</li>";
+            }
+            echo "</ul>";
+
+            echo "</div>";
+        }
+    }
+
+    if(!$found){
+        echo "<p>Aucune commande pour le moment 🍌</p>";
+    }
+    ?>
+</section>
 
     <!-- FIDÉLITÉ -->
     <div class="card">
         <h2>⭐ Fidélité</h2>
+        <p><b>Statut :</b> <?php echo $user ["statut"]; ?></p>
         <p>Points cumulés : <b>120</b></p>
         <p>🎁 Un dessert offert à 150 points</p>
     </div>
