@@ -1,0 +1,18 @@
+[
+{"id":1,"name":"Coxinha","price":4.0},
+{"id":2,"name":"Pastel","price":5.0},
+{"id":3,"name":"Pão de Queijo","price":4.0},
+{"id":4,"name":"Burger Cabanane","price":12.0},
+{"id":5,"name":"Frango tropical","price":14.0},
+{"id":6,"name":"Feijoada","price":18.0},
+{"id":7,"name":"Churasco","price":15.0},
+{"id":8,"name":"Picanha","price":22.0},
+{"id":9,"name":"Salada de frutos do pais","price":7.0},
+{"id":10,"name":"Brigadeiro","price":6.0},
+{"id":11,"name":"Quindim","price":6.0},
+{"id":12,"name":"Mousse de Maracujá","price":4.0},
+{"id":13,"name":"Smoothie banana","price":6.0},
+{"id":14,"name":"Caipirinha","price":4.0},
+{"id":15,"name":"Guaraná","price":3.0},
+{"id":16,"name":"Sumo de Açai","price":4.0}
+]

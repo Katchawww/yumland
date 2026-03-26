@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "client": "client5@gmail.com",
+        "status": "preparation",
+        "items": [
+            {
+                "dish": 1,
+                "qty": 1
+            },
+            {
+                "dish": 2,
+                "qty": 2
+            }
+        ],
+        "livreur": "aucun"
+    }
+]

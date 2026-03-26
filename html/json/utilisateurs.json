@@ -1,0 +1,86 @@
+[
+    {
+        "id": 1,
+        "login": "jefe@gmail.com",
+        "password": "1029384756",
+        "role": "admin",
+        "name": "Jefe de la empresa",
+        "surname": "Jefe",
+        "phone": "06 12 34 56 78",
+        "address": "Secreto",
+        "statut": "aucun",
+        "remise": "aucun"
+    },
+    {
+        "id": 2,
+        "login": "bigyboss@gmail.com",
+        "password": "1234567890",
+        "role": "restaurateur",
+        "name": "Smally Boss",
+        "surname": "Bigy",
+        "phone": "07 12 34 56 78",
+        "address": "Copacabana",
+        "statut": "Cuisto 5 \u00e9toiles",
+        "remise": "aucun"
+    },
+    {
+        "id": 3,
+        "login": "client1@gmail.com",
+        "password": "12340",
+        "role": "client",
+        "name": "Pablo",
+        "surname": "Escobar",
+        "phone": "06 21 43 65 87",
+        "address": "3 rue de la blanche, Columbia",
+        "statut": "VIP",
+        "remise": "aucun"
+    },
+    {
+        "id": 4,
+        "login": "client2@gmail.com",
+        "password": "1200",
+        "role": "client",
+        "name": "Emilio",
+        "surname": "Gaviria",
+        "phone": "06 11 22 33 44",
+        "address": "5 rue du soleil levant, Rio De Janeiro",
+        "statut": "aucun",
+        "remise": "aucun"
+    },
+    {
+        "id": 5,
+        "login": "client3@gmail.com",
+        "password": "123",
+        "role": "client",
+        "name": "Tony",
+        "surname": "Montagne",
+        "phone": "06 22 22 22 22",
+        "address": "8 rue du vagabond, la montagne rouge",
+        "statut": "aucun",
+        "remise": "aucun"
+    },
+    {
+        "id": 6,
+        "login": "client4@gmail.com",
+        "password": "1234",
+        "role": "client",
+        "name": "Gustavo",
+        "surname": "Lapaz",
+        "phone": "06 11 11 11 11",
+        "address": "9 avenue du restaurant, Cergy-Pontoise",
+        "statut": "aucun",
+        "remise": "aucun"
+    },
+    {
+        "id": 7,
+        "login": "client5@gmail.com",
+        "password": "12345",
+        "role": "client",
+        "name": "Chiquitinho",
+        "surname": "Partinho",
+        "phone": "06 33 33 33 33",
+        "address": "10 rue du tunnel, sous le pont",
+        "statut": "aucun",
+        "remise": "aucun"
+    }
+]
