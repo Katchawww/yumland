@@ -36,6 +36,7 @@ if(isset($_POST["name"])){
             $user["login"] = $_POST["login"];
             $user["role"] = $_POST["role"];
             $user["statut"] = $_POST["statut"];
+            $user["remise"] = $user["remise"];
         }
 
         $newUsers[] = $user;
@@ -95,6 +96,13 @@ if(isset($_POST["name"])){
          <option <?php if($user["statut"]=="aucun") echo "selected"; ?>>aucun</option>
          <option <?php if($user["statut"]=="VIP") echo "selected"; ?>>VIP</option>
          <option <?php if($user["statut"]=="Rei de la jungle") echo "selected"; ?>>Rei de la jungle</option>
+    </select><br><br>
+
+    <label><b>Remise :</label></b><br>
+    <select name="remise">
+         <option <?php if($user["remise"]=="aucun") echo "selected"; ?>>aucun</option>
+         <option <?php if($user["remise"]=="5%") echo "selected"; ?>>5%</option>
+         <option <?php if($user["remise"]=="10%") echo "selected"; ?>>10%</option>
     </select><br><br>
     <button type="submit">💾 Enregistrer</button>
 
