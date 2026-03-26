@@ -42,35 +42,26 @@ $user = $_SESSION["user"];
     <!-- UTILISATEURS -->
     <div class="card">
         <h2>🧾 Listes des commandes</h2>
-        <?php
+    
+    <?php
+    $users = readData("json/utilisateurs.json");
     $orders = readData("json/commandes.json");
-
-    $found = false;
-
-    foreach($orders as $order){
-
-        if($order["client"] == $user["login"]){
-
-            $found = true;
-            echo "<div class='card'>";
-            echo "<p>Commande #" . $order["id"] . "</p>";
-            echo "<p>Statut : " . $order["status"] . "</p>";
-
-            echo "<ul>";
-            foreach($order["items"] as $item){
-                echo "<li>Produit ID : ".$item["dish"]." (x".$item["qty"].")</li>";
-            }
-            echo "</ul>";
-
-            echo "</div>";
-        }
-    }
-
-    if(!$found){
-        echo "<p>Aucune commande pour le moment 🍌</p>";
-    }
     ?>
-        
+
+
+    <?php foreach($orders as $order){ ?>
+
+        <?php echo "<div class='card'>";?>
+        <?php echo "<p>Commande #" . $order["id"] . "</p>";?>
+        <?php  echo "<p>Client : " . $order["client"] . "</p>";?>
+        <?php   echo "<p>Statut : " . $order["status"] . "</p>";?>
+        <?php  echo "<ul>";?>
+        <?php foreach($order["items"] as $item){?>
+            <?php  echo "<li>Produit ID : ".$item["dish"]. "(x".$item["qty"].")</li>";?><?php } ?>
+            <?php echo "</ul>";?>
+            <nav><a href="etatcommandes.php?id=<?php echo $order["id"]; ?>">✏️ Modifier</a></nav>
+            <?php echo "</div>";?>
+      <?php } ?>
 </section>
 
 

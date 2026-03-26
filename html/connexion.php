@@ -4,6 +4,17 @@ include("fonctions.php");
 
 if(isset($_POST["login"]) && isset($_POST["password"])){
 $users = readData("json/utilisateurs.json");
+$livreurs = readData("json/livreurs.json");
+
+foreach($livreurs as $l){
+    if($l["login"] == $_POST["login"] &&
+       $l["password"] == $_POST["password"]){
+
+        $_SESSION["user"] = $l;
+        header("Location: ../livraison.php");
+        exit;
+    }
+}
 
 foreach($users as $user){
 
