@@ -13,9 +13,9 @@ if(isset($_GET["login"])){
 
     $login = $_GET["login"];
 
-    foreach($users as $user){
-        if($user["login"] == $login){
-            $user = $user;
+    foreach($users as $u){
+        if($u["login"] == $login){
+            $user = $u;
             break;
         }
     }
@@ -47,7 +47,7 @@ if(isset($_GET["login"])){
         <a href="index.php">Accueil</a>
         <a href="produits.php">Plats</a>
         <a href="profil.php">Profil</a>
-        <a href="index.php">Déconnexion</a>
+        <a href="deconnexion.php">Déconnexion</a>
     </nav>
 </header>
 
@@ -91,10 +91,19 @@ if(isset($_GET["login"])){
             }
             echo "</ul>";
 
-            echo "</div>";
-        }
-    }
+            if($order["status"] == "livree"){
 
+                if(!isset($order["note"]) || $order["note"] == null){
+                    echo "<nav><a href='avis.php?id=".$order["id"]."'>⭐ Noter la commande</a></nav>";
+                } else {
+                    echo "<p>Note : ".$order["note"]." ⭐</p>";
+                    echo "<p>Avis : ".$order["commentaire"]."</p>";
+                }
+            }
+            
+        }
+        echo "</div>";
+    }
     if(!$found){
         echo "<p>Aucune commande pour le moment 🍌</p>";
     }

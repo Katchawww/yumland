@@ -19,13 +19,35 @@
     <nav>
         <a href="index.php" title="aller à l'accueil">Accueil</a>
         <a href="produits.php" title="aller aux plats">Plats</a>
-        <a href="inscription.php" title="pour s'inscrire">Inscription</a>
-        <a href="connexion.php" title="pour se connecter">Connexion</a>
+        <?php if(isset($_SESSION["user"])): ?>
+            <!-- UTILISATEUR CONNECTÉ -->
+            <?php if($_SESSION["user"]["role"] == "livreur"): ?>
+                <a href="livraison.php">Livraisons</a>
+            <?php endif; ?>
+            <?php if($_SESSION["user"]["role"] == "admin"): ?>
+                <a href="admin.php">Admin</a>
+            <?php endif; ?>
+            <?php if($_SESSION["user"]["role"] == "restaurateur"): ?>
+                <a href="restauration.php">Restauration</a>
+            <?php endif; ?>
+            <?php if($_SESSION["user"]["role"] == "client"): ?>
+                <a href="profil.php">Profil</a>
+                <a href="panier.php">Panier</a>
+            <?php endif; ?>
+            <a href="deconnexion.php">Déconnexion</a>
+        <?php else: ?>
+            <!-- UTILISATEUR NON CONNECTÉ -->
+            <a href="connexion.php">Connexion</a>
+            <a href="inscription.php">Inscription</a>
+        <?php endif; ?>
     </nav>
 </header>
 
 <div class="infos">
     📍 Paris | 🕒 11h–23h | 📞 01 23 45 67 89
+    <?php if(isset($_SESSION["user"])): ?>
+    <p>Bienvenue <?php echo $_SESSION["user"]["name"]; ?> 🍌</p>
+    <?php endif; ?>
 </div>
 
 
@@ -40,7 +62,7 @@
 
 <section>
     <h2>🔥 Plats populaires</h2>
-    <nav>
+<nav>
     <div class="cards">
         <div class="card">
             <h3><a href="produits.php#burger">🍌 Burger Cabanane</a></h3>
