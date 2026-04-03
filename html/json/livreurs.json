@@ -3,12 +3,14 @@
     "id": 1,
     "name": "Robert",
     "login": "robert@gmail.com",
-    "password": "123"
+    "password": "123",
+    "role": "livreur"
   },
   {
     "id": 2,
     "name": "Miguel",
     "login": "miguel@gmail.com",
-    "password": "123"
+    "password": "123",
+    "role": "livreur"
   }
 ]
