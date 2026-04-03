@@ -2,7 +2,7 @@
     {
         "id": 1,
         "client": "client5@gmail.com",
-        "status": "preparation",
+        "status": "livree",
         "items": [
             {
                 "dish": 1,
@@ -13,6 +13,57 @@
                 "qty": 2
             }
         ],
-        "livreur": "aucun"
+        "livreur": "Robert",
+        "note": "4",
+        "commentaire": "Top carr\u00e9 dans l'ananas"
+    },
+    {
+        "id": 2,
+        "client": "jefe@gmail.com",
+        "status": "en_attente",
+        "date": "2026-03-30T17:00",
+        "items": [
+            {
+                "dish": 3,
+                "qty": 1
+            }
+        ],
+        "livreur": "aucun",
+        "note": null,
+        "commentaire": null
+    },
+    {
+        "id": 3,
+        "client": "client5@gmail.com",
+        "status": "livree",
+        "date": "2026-03-30T17:06",
+        "items": [
+            {
+                "dish": 3,
+                "qty": 1
+            },
+            {
+                "dish": 11,
+                "qty": 4
+            }
+        ],
+        "livreur": "aucun",
+        "note": "5",
+        "commentaire": null
+    },
+    {
+        "id": 4,
+        "client": "client5@gmail.com",
+        "status": "en_attente",
+        "date": "2026-03-24T16:33",
+        "items": [
+            {
+                "dish": 3,
+                "qty": 1
+            }
+        ],
+        "livreur": "aucun",
+        "note": null,
+        "commentaire": null
     }
 ]
