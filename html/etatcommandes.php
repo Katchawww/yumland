@@ -47,7 +47,8 @@ if(isset($_POST["status"])){
         $newOrders[] = $o;
     }
 
-    file_put_contents("json/commandes.json", json_encode($newOrders, JSON_PRETTY_PRINT));
+    saveData("json/commandes.json", $newOrders);
+
 
     header("Location: restauration.php");
     exit;
@@ -94,8 +95,8 @@ if(isset($_POST["status"])){
     <option value="aucun">aucun</option>
 
     <?php foreach($livreurs as $l){ ?>
-        <option value="<?php echo $l["name"]; ?>"
-            <?php if(isset($order["livreur"]) && $order["livreur"] == $l["name"]) echo "selected"; ?>>
+        <option value="<?php echo $l["login"]; ?>"
+            <?php if(isset($order["livreur"]) && $order["livreur"] == $l["login"]) echo "selected"; ?>>
             <?php echo $l["name"]; ?>
         </option>
     <?php } ?>
