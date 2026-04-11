@@ -43,7 +43,7 @@ if(isset($_POST["name"])){
     }
 
     // sauvegarde
-    file_put_contents("json/utilisateurs.json", json_encode($newUsers, JSON_PRETTY_PRINT));
+    saveData("json/utilisateurs.json", $newUsers);
 
     header("Location: admin.php");
     exit;

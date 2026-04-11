@@ -1,7 +1,7 @@
 <?php session_start();
 include("fonctions.php");
 
-// Sécurité : si pas connecté → redirection
+// Sécurité sinon redirection vers connexion
 if(!isset($_SESSION["user"])){
     header("Location: connexion.php");
     exit;
@@ -33,7 +33,7 @@ $users = readData("json/utilisateurs.json");
     <nav>
         <a href="index.php">Accueil</a>
         <a href="admin.php">Administration</a>
-        <a href="index.php">Déconnexion</a>
+        <a href="deconnexion.php">Déconnexion</a>
     </nav>
 </header>
 

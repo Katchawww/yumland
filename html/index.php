@@ -55,7 +55,9 @@
     <h1>Bem-Vindo à Copa Cabanane</h1>
     <p>Le restaurant tropical qui met la banane 🍌</p>
 
-    <input type="text" placeholder="Rechercher un plat...">
+    <form method="GET" action="produits.php">
+        <input type="text" name="search" placeholder="Rechercher un plat...">
+    </form>
 </section>
 
 

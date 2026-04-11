@@ -24,6 +24,32 @@ if(isset($_GET["login"])){
     // sinon profil normal (utilisateur connecté)
     $user = $_SESSION["user"];
 }
+
+if(isset($_POST["name"])){
+
+    $newUsers = [];
+    $utilisateurcourant = $_SESSION["user"]["login"];
+    foreach($users as $u){
+
+        if($u["login"] == $utilisateurcourant){
+            // modifier les données
+            $u["name"] = $_POST["name"];
+            $u["surname"] = $_POST["surname"];
+            $u["login"] = $_POST["login"];
+            $u["phone"] = $_POST["phone"];
+            $u["address"] = $_POST["address"];
+            
+            $_SESSION["user"] = $u; // mettre à jour session avec nouvelles données
+        }
+
+        $newUsers[] = $u;
+    }
+
+    // sauvegarde
+    saveData("json/utilisateurs.json", $newUsers);
+    header("Location: profil.php");
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -46,7 +72,7 @@ if(isset($_GET["login"])){
     <nav>
         <a href="index.php">Accueil</a>
         <a href="produits.php">Plats</a>
-        <a href="profil.php">Profil</a>
+        <a href="panier.php">Panier</a>
         <a href="deconnexion.php">Déconnexion</a>
     </nav>
 </header>
@@ -59,12 +85,31 @@ if(isset($_GET["login"])){
     <!-- INFOS UTILISATEUR -->
     <div class="card">
         <h2>📋 Informations personnelles</h2>
-        <p><b>Nom :</b> <?php echo $user ["name"]; ?>✏️</p>
-        <p><b>Prénom :</b> <?php echo $user ["surname"]; ?> ✏️</p>
-        <p><b>Email :</b> <?php echo $user ["login"]; ?> ✏️</p>
-        <p><b>Téléphone :</b> <?php echo $user ["phone"]; ?>✏️</p>
-        <p><b>Adresse :</b> <?php echo $user ["address"]; ?> ✏️</p>
-        <p><b>Role :</b> <?php echo $user ["role"]; ?></p>
+        <form method="POST">
+
+    <label><b>Nom :</label></b><br>
+    <input type="text" name="name" value="<?php echo $user["name"]; ?>"><br><br>
+
+    <label><b>Prénom :</label></b><br>
+    <input type="text" name="surname" value="<?php echo $user["surname"]; ?>"><br><br>
+
+    <label><b>Email :</label></b><br>
+    <input type="text" name="login" value="<?php echo $user["login"]; ?>"><br><br>
+
+    <label><b>Téléphone :</label></b><br>
+    <input type="text" name="phone" value="<?php echo $user["phone"]; ?>"><br><br>
+
+    <label><b>Adresse :</label></b><br>
+    <input type="text" name="address" value="<?php echo $user["address"]; ?>"><br><br>
+
+    <label><b>Rôle :</label></b><br>
+    <?php echo $user ["role"]; ?><br><br>
+
+    <label><b>Statut fidélité :</label></b><br>
+    <?php echo $user ["statut"]; ?><br><br>
+
+    <button type="submit">💾 Enregistrer</button>
+</form>
     </div>
 
     <!-- COMMANDES -->
