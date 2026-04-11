@@ -1,4 +1,12 @@
-<?php session_start(); ?>
+<?php
+session_start();
+include("fonctions.php");
+
+$produits = readData("json/plats.json");
+$menus = readData("json/menus.json");
+$search = $_GET["search"] ?? "";
+$categorie = $_GET["categorie"] ?? "";
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -17,10 +25,18 @@
 
 
     <nav>
-        <a href="index.php">Accueil</a>
-        <a href="produits.php">Plats</a>
-        <a href="inscription.php">Inscription</a>
-        <a href="connexion.php">Connexion</a>
+        <a href="index.php" title="aller à l'accueil">Accueil</a>
+        <a href="produits.php" title="aller aux plats">Plats</a>
+        <?php if(isset($_SESSION["user"])): ?>
+            <!-- UTILISATEUR CONNECTÉ -->
+            <a href="profil.php">Profil</a>
+            <a href="panier.php">Panier</a>
+            <a href="deconnexion.php">Déconnexion</a>
+        <?php else: ?>
+            <!-- UTILISATEUR NON CONNECTÉ -->
+            <a href="connexion.php">Connexion</a>
+            <a href="inscription.php">Inscription</a>
+        <?php endif; ?>
     </nav>
 </header>
 
@@ -28,50 +44,95 @@
 <section class="hero">
     <h1>🍽️ Nos plats</h1>
     <p>Découvrez nos spécialités tropicales</p>
+    <?php if($search){ ?>
+    <p>Résultats pour : <b><?php echo htmlspecialchars($search); ?></b></p>
+<?php } ?>
 
     <!-- BARRE DE RECHERCHE -->
-    <input type="text" placeholder="Rechercher un plat...">
+    <form method="GET" action="produits.php">
+        <input type="text" name="search" placeholder="Rechercher un plat...">
+    </form>
 </section>
 
 <!-- FILTRES -->
 <section class="filters">
-    <button>🍔 Plats</button>
-    <button>🥗 Entrées</button>
-    <button>🍰 Desserts</button>
-    <button>🍹 Boissons</button>
+    <nav><a href="produits.php?categorie=Entrée Do Brazil">🥗 Entrées</a>
+    <a href="produits.php?categorie=Plat Do Brazil">🍔 Plats</a>
+    <a href="produits.php?categorie=Dessert Do Brazil">🍰 Desserts</a>
+    <a href="produits.php?categorie=Boisson Do Brazil">🍹 Boissons</a>
+    <a href="produits.php">🍽️ Tous</a>
+    <a href="produits.php?categorie=Menu Do Brazil">🍌 Menus</a></nav>
 </section>
 
 
 <!-- LISTE DES PRODUITS -->
+<section>
+    <h2 textalign: center>Menus Do Brazil</h2>
+</section>
+
+<section class="cards">
+
+<?php foreach($menus as $menu){
+    if($menu["categorie"] == "Menu Do Brazil" &&(!$search || stripos($menu["name"], $search) !== false )&&( !$categorie || $menu["categorie"] == $categorie)){ ?>
+    <div class="product-card">
+        <h3><?php echo $menu["name"]; ?></h3>
+        <p><b><?php echo $menu["price"]; ?> €</b></p>
+        <p><b>Contenu du menu :</b></p>
+        <ul>
+        <?php
+        foreach($menu["plats"] as $id){
+
+            foreach($produits as $p){
+                if($p["id"] == $id){
+                    echo "<li>".$p["name"]."</li>";
+                }
+            }
+
+        }
+        ?>
+        </ul>
+        <img src="images/<?php echo $menu["image"]; ?>" alt="<?php echo $menu["name"]; ?>">
+
+        <form method="POST" action="panier.php">
+            <input type="hidden" name="dish" value="<?php echo $menu["id"]; ?>">
+
+            Quantité :
+            <input type="number" name="qty" value="1" min="1" max="99">
+
+            <button type="submit">🛒 Ajouter</button>
+        </form>
+    </div>
+
+<?php } }?>
+</section>
+
+
 <section>
     <h2 textalign: center>Entrées Do Brazil</h2>
 </section>
 
 <section class="cards">
 
-<div class="product-card">
-    <h3>Coxinha</h3>
-    <p>Beignet de poulet</p>
-    <p><b>4 €</b></p>
-    <br>
-    <img src="images/coxinha.png" alt="coxinha">
-</div>
+<?php foreach($produits as $produit){
+    if($produit["categorie"] == "Entrée Do Brazil" &&(!$search || stripos($produit["name"], $search) !== false )&&( !$categorie || $produit["categorie"] == $categorie)){ ?>
+    <div class="product-card">
+        <h3><?php echo $produit["name"]; ?></h3>
+        <p><b><?php echo $produit["price"]; ?> €</b></p>
+        <img src="images/<?php echo $produit["image"]; ?>" alt="<?php echo $produit["name"]; ?>">
 
-<div class="product-card">
-    <h3>Pastel</h3>
-    <p>Beignet frit à la viande et au fromage</p>
-    <p><b>5 €</b></p>
-    <img src="images/pastel.png" alt="pastel">
-</div>
+        <form method="POST" action="panier.php">
+            <input type="hidden" name="dish" value="<?php echo $produit["id"]; ?>">
 
-<div class="product-card">
-    <h3>Pão de Queijo</h3>
-    <p>Pain au fromage</p>
-    <p><b>4 €</b></p>
-    <br>
-    <img src="images/pao.png" alt="pao de queijo">
-</div>
+            Quantité :
+            <input type="number" name="qty" value="1" min="1" max="99">
+
+            <button type="submit">🛒 Ajouter</button>
+        </form>
+    </div>
+
+<?php } }?>
 </section>
+
 
 <section>
     <h2 textalign: center>Plats Do Brazil</h2>
@@ -79,120 +140,77 @@
 
 <section class="cards">
 
+<?php foreach($produits as $produit){
+    if($produit["categorie"] == "Plat Do Brazil"&&(!$search || stripos($produit["name"], $search) !== false )&&( !$categorie || $produit["categorie"] == $categorie)){ ?>
     <div class="product-card">
-        <a id="burger"></a>
-        <h3>Burger Cabanane</h3>
-        <p>Steak, banane rôtie, sauce maison</p>
-        <p><b>12 €</b></p>
-        <img src="images/burger-cabanane.png" alt="Burger">
+        <h3><?php echo $produit["name"]; ?></h3>
+        <p><b><?php echo $produit["price"]; ?> €</b></p>
+        <img src="images/<?php echo $produit["image"]; ?>" alt="<?php echo $produit["name"]; ?>">
+
+        <form method="POST" action="panier.php">
+            <input type="hidden" name="dish" value="<?php echo $produit["id"]; ?>">
+
+            Quantité :
+            <input type="number" name="qty" value="1" min="1" max="99">
+
+            <button type="submit">🛒 Ajouter</button>
+        </form>
     </div>
 
-    <div class="product-card">
-        <a id="poulet"></a>
-        <h3>Frango tropical</h3>
-        <p>Mariné aux épices exotiques</p>
-        <p><b>14 €</b></p>
-        <img src="images/poulet.png" alt="poulet">
-    </div>
-    
-    <div class="product-card">
-        <h3>Feijoada</h3>
-        <p>Haricots noirs, viandes mijotées, riz blanc</p>
-        <p><b>18 €</b></p>
-        <img src="images/feijoada.png" alt="feijoada">
-    </div>
-
-    <div class="product-card">
-        <h3>Churasco</h3>
-        <p>Ensemble de delicieuse viandes(boeuf,porc...)</p>
-        <p><b>15 €</b></p>
-        <img src="images/churasco.png" alt="churasco">
-    </div>
-
-    <div class="product-card">
-        <h3>Picanha</h3>
-        <p>Notre meilleure pièce de boeuf</p>
-        <p><b>22 €</b></p>
-        <img src="images/picanha.png" alt="picanha">
-    </div>
-    </section>
-
-    <section>
-        <h2 textalign: center>Desserts Do Brazil</h2>
-    </section>
-
-    <section class="cards">
-
-    <div class="product-card">
-        <h3>Salada de frutos do pais</h3>
-        <p>Mangue, maracuja, fraise...</p>
-        <p><b>7 €</b></p>
-        <img src="images/salade.png" alt="salade">
-    </div>
-
-    <div class="product-card">
-        <h3>Brigadeiro</h3>
-        <p>Boule chocolatée</p>
-        <p><b>6 €</b></p>
-        <br>
-        <img src="images/brigadeiro.png" alt="brigadeiro">
-    </div>
-
-    <div class="product-card">
-        <h3>Quindim</h3>
-        <p>Délicieux à la coco et oeufs</p>
-        <p><b>6 €</b></p>
-        <br>
-        <img src="images/quindim.png" alt="quindim">
-    </div>
-
-    <div class="product-card">
-        <h3>Mousse de Maracujá</h3>
-        <p>mousse délicate au fruit de la passion</p>
-        <p><b>4 €</b></p>
-        <img src="images/mousse.png" alt="mousse Maracujá">
-    </div>
+<?php } }?>
 </section>
 
-    <section>
-        <h2 textalign: center>Boissons Do Brazil</h2>
-    </section>
+<section>
+    <h2 textalign: center>Dessert Do Brazil</h2>
+</section>
 
-    <section class="cards">
+<section class="cards">
 
+<?php foreach($produits as $produit){
+    if($produit["categorie"] == "Dessert Do Brazil"&&(!$search || stripos($produit["name"], $search) !== false )&&( !$categorie || $produit["categorie"] == $categorie)){ ?>
     <div class="product-card">
-        <h3>Smoothie banana</h3>
-        <p>Frais et 100 % naturel</p>
-        <a id="smoothie"></a>
-        <p><b>6 €</b></p>
-        <br>
-        <img src="images/smoothie.png" alt="smoothie">
+        <h3><?php echo $produit["name"]; ?></h3>
+        <p><b><?php echo $produit["price"]; ?> €</b></p>
+        <img src="images/<?php echo $produit["image"]; ?>" alt="<?php echo $produit["name"]; ?>">
+
+        <form method="POST" action="panier.php">
+            <input type="hidden" name="dish" value="<?php echo $produit["id"]; ?>">
+
+            Quantité :
+            <input type="number" name="qty" value="1" min="1" max="99">
+
+            <button type="submit">🛒 Ajouter</button>
+        </form>
     </div>
 
+<?php } }?>
+</section>
+
+<section>
+    <h2 textalign: center>Boissons Do Brazil</h2>
+</section>
+
+<section class="cards">
+
+<?php foreach($produits as $produit){
+    if($produit["categorie"] == "Boisson Do Brazil"&&(!$search || stripos($produit["name"], $search) !== false )&&( !$categorie || $produit["categorie"] == $categorie)){ ?>
     <div class="product-card">
-        <h3>Caipirinha</h3>
-        <p>Citron vert, sucre, cachaça</p>
-        <p><b>4 €</b></p>
-        <br>
-        <img src="images/caipirinha.png" alt="caipirinha">
+        <h3><?php echo $produit["name"]; ?></h3>
+        <p><b><?php echo $produit["price"]; ?> €</b></p>
+        <img src="images/<?php echo $produit["image"]; ?>" alt="<?php echo $produit["name"]; ?>">
+
+        <form method="POST" action="panier.php">
+            <input type="hidden" name="dish" value="<?php echo $produit["id"]; ?>">
+
+            Quantité :
+            <input type="number" name="qty" value="1" min="1" max="99">
+
+            <button type="submit">🛒 Ajouter</button>
+        </form>
     </div>
 
-    <div class="product-card">
-        <h3>Guaraná</h3>
-        <p>Le brésil par excellence</p>
-        <p><b>3 €</b></p>
-        <br>
-        <img src="images/guarana.png" alt="Guaraná">
-    </div>
-
-    <div class="product-card">
-        <h3>Sumo de Açai</h3>
-        <p>Le jus qui va vous rendre joyeux</p>
-        <p><b>4 €</b></p>
-        <img src="images/acai.png" alt="Sumo de Açai">
-    </div>
-
-    </section>
+<?php } }?>
+</section>
 
 <!-- FOOTER -->
 <footer>

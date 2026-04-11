@@ -65,7 +65,7 @@ if(isset($_POST["login"]) && isset($_POST["password"]) && isset($_POST["name"]))
         <input type="email" placeholder="exemple@mail.com" name="login" required>
 
         <label>Téléphone</label>
-        <input type="tel" placeholder="06 12 34 56 78" name="name" required>
+        <input type="tel" placeholder="06 12 34 56 78" name="phone" required>
 
         <label>Adresse</label>
         <input type="text" placeholder="Adresse complète" name="address" required>

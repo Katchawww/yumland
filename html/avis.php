@@ -1,4 +1,38 @@
-<?php session_start(); ?>
+<?php
+session_start();
+include("fonctions.php");
+
+$orders = readData("json/commandes.json");
+
+// récupérer ID dès le début
+if(isset($_GET["id"])){
+    $id = $_GET["id"];
+} else {
+    echo "ID manquant";
+    exit;
+}
+
+
+if(isset($_POST["note"])){
+
+    $newOrders = [];
+
+    foreach($orders as $o){
+
+        if($o["id"] == $id){
+            $o["note"] = $_POST["note"];
+            $o["commentaire"] = $_POST["commentaire"];
+        }
+
+        $newOrders[] = $o;
+    }
+
+    file_put_contents("json/commandes.json", json_encode($newOrders, JSON_PRETTY_PRINT));
+
+    header("Location: profil.php");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -19,24 +53,50 @@
     <nav>
         <a href="index.php">Accueil</a>
         <a href="profil.php">Profil</a>
-        <a href="index.php">Deconnexion</a>
+        <a href="deconnexion.php">Deconnexion</a>
     </nav>
 </header>
 
-<!-- CONTENU -->
+<?php if(isset($_GET["id"])){
+    $id = $_GET["id"];
+
+    foreach($orders as $o){
+        if($o["id"] == $id){
+            $order = $o;
+            break;
+        }
+    }
+}
+
+// sécurité
+if(!isset($order)){
+    echo "Commande introuvable";
+    exit;
+}
+?>
 <section>
-    <h1>  Avis</h1>
-    <p>Laissez un avis croustillant de votre commande Copa Cabanane</p>
+<h2>⭐ Noter la commande #<?php echo $order["id"]; ?></h2>
+<p>Laissez une note croustillante de votre commande Copa Cabanane</p>
+
+<form method="POST">
+    <select name="note">
+        <option value="1">1 ⭐</option>
+        <option value="2">2 ⭐</option>
+        <option value="3">3 ⭐</option>
+        <option value="4">4 ⭐</option>
+        <option value="5">5 ⭐</option>
+    </select>
     <br><br>
-    <form class="form">
-        <label>Avis</label>
-        <input type="text" placeholder="Notez la livraison et la qualité des produits">
 
-        <button type="submit">Publier l'avis</button>
-
-    </form>
+    <label><b>Avis :</b></label>
+    <textarea name="commentaire" placeholder="Donnez votre avis..." required></textarea>
+    <button type="submit">Envoyer</button>
+</form>
 </section>
+<br><br><br><br><br><br><br><br><br><br>
 <br><br><br><br><br>
+<br><br><br><br><br>
+
 
 <!-- FOOTER -->
 <footer>

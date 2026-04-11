@@ -19,7 +19,7 @@
     <nav>
         <a href="index.php">Accueil</a>
         <a href="commandes.php">Commandes</a>
-        <a href="index.php">Déconnexion</a>
+        <a href="deconnexion.php">Déconnexion</a>
     </nav>
 </header>
 

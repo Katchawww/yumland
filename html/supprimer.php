@@ -22,7 +22,7 @@ if(isset($_GET["login"])){
     }
 
     // sauvegarde
-    file_put_contents("json/utilisateurs.json", json_encode($newUsers, JSON_PRETTY_PRINT));
+    saveData("json/commandes.json", $newUsers);
 
 }
 

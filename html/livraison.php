@@ -1,4 +1,25 @@
-<?php session_start(); ?>
+<?php
+session_start();
+include("fonctions.php");
+
+// sécurité
+if(!isset($_SESSION["user"])){
+    header("Location: connexion.php");
+    exit;
+}
+
+$user = $_SESSION["user"];
+
+// vérifier que c'est un livreur
+if($user["role"] != "livreur"){
+    echo "Accès refusé";
+    exit;
+}
+
+$orders = readData("json/commandes.json");
+$clients = readData("json/utilisateurs.json");
+$produits = readData("json/plats.json");
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -18,33 +39,67 @@
     <nav>
         <a href="index.php">Accueil</a>
         <a href="livraison.php">Livraison</a>
-        <a href="index.php">Déconnexion</a>
+        <a href="deconnexion.php">Déconnexion</a>
     </nav>
 </header>
 
-<!-- LIVRAISON -->
+
 <section>
-    <h1>🛵 Livraison en cours</h1>
-    <p>Informations pour le livreur</p>
+<h1>🚚 Espace Livreur</h1>
 
-    <div class="card">
-        <h2>📦 Commande #1019</h2>
+<?php foreach($orders as $order){ ?>
 
-        <p><b>Client :</b> Jean Dupont</p>
-        <p><b>Adresse :</b> 12 rue du Soleil, Rio De Janeiro</p>
-        <p><b>Code interphone :</b> 42B</p>
-        <p><b>Étage :</b> 3ᵉ étage</p>
-        <p><b>Téléphone :</b> 06 12 34 56 78</p>
-        <p><b>Commentaire :</b> Sonner deux fois</p>
+    <?php if($order["livreur"] == $user["login"]){ ?>
 
-        <nav><a href="https://www.google.com/maps" target="_blank" class="btn">
-          📍 Ouvrir l’adresse
-        </a></nav>
+        <div class="card">
+            <p><b>Commande #<?php echo $order["id"]; ?></b></p>
+            <p><b>Client :</b> <?php echo $order["client"]; ?></p>
+            <p><b>Statut :</b> <?php echo $order["status"]; ?></p>
 
-        <br><br>
+            <ul>
+                <?php foreach($order["items"] as $item){ ?>
+                    <?php
+                        $nomProduit = "Inconnu";
 
-        <button>✔ Livraison terminée</button>
-    </div>
+                        foreach($produits as $p){
+                            if($p["id"] == $item["dish"]){
+                                $nomProduit = $p["name"];
+                            }
+                        }
+                        ?>
+
+                <li><?php echo $nomProduit; ?> (x<?php echo $item["qty"]; ?>)</li>
+                <?php } ?>
+            </ul>
+
+            <?php
+                $clientInfo = null;
+
+                foreach($clients as $client){
+                    if($client["login"] == $order["client"]){
+                        $clientInfo = $client;
+                    }
+                }
+            ?>
+
+            <p><b>Client :</b> <?php echo $clientInfo["name"] . " " . $clientInfo["surname"]; ?></p>
+            <p><b>Téléphone :</b> <?php echo $clientInfo["phone"]; ?></p>
+            <p><b>Adresse :</b> <?php echo $clientInfo["address"]; ?></p>
+
+            <nav><a href="https://www.google.com/maps/search/<?php echo urlencode($clientInfo["address"]); ?>" target="_blank">
+            📍 Afficher sur la carte</a></nav>
+                                                
+
+            <!-- bouton livrer -->
+            <?php if($order["status"] != "livree"){ ?>
+                <nav><a href="livrer.php?id=<?php echo $order["id"]; ?>">✅ Marquer comme livrée</a></nav>
+            <?php } ?>
+
+        </div>
+
+    <?php } ?>
+
+<?php } ?>
 </section>
 <br><br>
 

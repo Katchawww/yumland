@@ -1,7 +1,7 @@
 <?php session_start();
 include("fonctions.php");
 
-// Sécurité : si pas connecté → redirection
+// Sécurité sinon redirection vers connexion
 if(!isset($_SESSION["user"])){
     header("Location: connexion.php");
     exit;
@@ -29,7 +29,7 @@ $user = $_SESSION["user"];
     <nav>
         <a href="index.php">Accueil</a>
         <a href="restauration.php">Restauration</a>
-        <a href="index.php">Déconnexion</a>
+        <a href="deconnexion.php">Déconnexion</a>
     </nav>
 </header>
 
