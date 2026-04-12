@@ -5,20 +5,22 @@
 "price":23.6,
 "plats":[6,11,14],
 "categorie":"Menu Do Brazil",
-"image":"feijoada.png"
+"image":"menu2.png"
 },
 {
 "id":2,
 "name":"Menu Enfant",
 "price":16.5,
 "plats":[1,4,15],
-"categorie":"Menu Do Brazil"
+"categorie":"Menu Do Brazil",
+"image":"menu1.png"
 },
 {
 "id":3,
 "name":"Menu do chefe",
 "price":28.99,
 "plats":[2,8,10,16],
-"categorie":"Menu Do Brazil"
+"categorie":"Menu Do Brazil",
+"image":"menu3.png"
 }
 ]
