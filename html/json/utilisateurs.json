@@ -82,5 +82,17 @@
         "address": "10 rue du tunnel, sous le pont",
         "statut": "aucun",
         "remise": "aucun"
+    },
+    {
+        "id": 8,
+        "login": "chef@gmail.com",
+        "password": "1234",
+        "role": "admin",
+        "name": "Chef de la favela",
+        "surname": "Chefe",
+        "phone": "06 12 34 56 87",
+        "address": "Secreto",
+        "statut": "aucun",
+        "remise": "aucun"
     }
 ]
