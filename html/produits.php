@@ -118,6 +118,7 @@ $categorie = $_GET["categorie"] ?? "";
     <div class="product-card">
         <h3><?php echo $produit["name"]; ?></h3>
         <p><b><?php echo $produit["price"]; ?> €</b></p>
+        <p><?php echo $produit["description"];?></p>
         <img src="images/<?php echo $produit["image"]; ?>" alt="<?php echo $produit["name"]; ?>">
 
         <form method="POST" action="panier.php">
@@ -145,6 +146,7 @@ $categorie = $_GET["categorie"] ?? "";
     <div class="product-card">
         <h3><?php echo $produit["name"]; ?></h3>
         <p><b><?php echo $produit["price"]; ?> €</b></p>
+        <p><?php echo $produit["description"];?></p>
         <img src="images/<?php echo $produit["image"]; ?>" alt="<?php echo $produit["name"]; ?>">
 
         <form method="POST" action="panier.php">
@@ -171,6 +173,7 @@ $categorie = $_GET["categorie"] ?? "";
     <div class="product-card">
         <h3><?php echo $produit["name"]; ?></h3>
         <p><b><?php echo $produit["price"]; ?> €</b></p>
+        <p><?php echo $produit["description"];?></p>
         <img src="images/<?php echo $produit["image"]; ?>" alt="<?php echo $produit["name"]; ?>">
 
         <form method="POST" action="panier.php">
@@ -197,6 +200,7 @@ $categorie = $_GET["categorie"] ?? "";
     <div class="product-card">
         <h3><?php echo $produit["name"]; ?></h3>
         <p><b><?php echo $produit["price"]; ?> €</b></p>
+        <p><?php echo $produit["description"];?></p>
         <img src="images/<?php echo $produit["image"]; ?>" alt="<?php echo $produit["name"]; ?>">
 
         <form method="POST" action="panier.php">
