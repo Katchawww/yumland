@@ -1,4 +1,7 @@
-<?php session_start(); ?>
+<?php
+session_start();
+include("fonctions.php");
+checkBlocked();?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>

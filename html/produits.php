@@ -66,7 +66,7 @@ $categorie = $_GET["categorie"] ?? "";
 
 <section class="filters">
     <select id="tri">
-        <option value="">-- Trier par --</option>
+        <option value="">- Trier par -</option>
 
         <option value="prix+">
             Prix croissant
@@ -78,6 +78,33 @@ $categorie = $_GET["categorie"] ?? "";
 
         <option value="tri-nom">
             Ordre alphabétique
+        </option>
+    </select>
+    
+    <select id="allergene">
+
+        <option value="">
+            - Allergènes -
+        </option>
+
+        <option value="gluten">
+            Gluten
+        </option>
+
+        <option value="lait">
+            Lait
+        </option>
+
+        <option value="oeuf">
+            Œuf
+        </option>
+
+        <option value="soja">
+            Soja
+        </option>
+
+        <option value="moutarde">
+            Moutarde
         </option>
     </select>
 </section>
@@ -132,7 +159,7 @@ $categorie = $_GET["categorie"] ?? "";
 
 <?php foreach($produits as $produit){
     if($produit["categorie"] == "Entrée Do Brazil" &&(!$search || stripos($produit["name"], $search) !== false )&&( !$categorie || $produit["categorie"] == $categorie)){ ?>
-    <div class="product-card entree" data-price="<?php echo $produit["price"]; ?>" data-name="<?php echo $produit["name"]; ?>">
+    <div class="product-card entree" data-price="<?php echo $produit["price"]; ?>" data-name="<?php echo $produit["name"]; ?>"; data-allergenes="<?php echo implode(',', $produit["allergenes"]); ?>">
         <h3><?php echo $produit["name"]; ?></h3>
         <p><b><?php echo $produit["price"]; ?> €</b></p>
         <p><?php echo $produit["description"];?></p>
@@ -160,7 +187,7 @@ $categorie = $_GET["categorie"] ?? "";
 
 <?php foreach($produits as $produit){
     if($produit["categorie"] == "Plat Do Brazil"&&(!$search || stripos($produit["name"], $search) !== false )&&( !$categorie || $produit["categorie"] == $categorie)){ ?>
-    <div class="product-card plat" data-price="<?php echo $produit["price"]; ?>" data-name="<?php echo $produit["name"]; ?>">
+    <div class="product-card plat" data-price="<?php echo $produit["price"]; ?>" data-name="<?php echo $produit["name"]; ?>"; data-allergenes="<?php echo implode(',', $produit["allergenes"]); ?>">
         <h3><?php echo $produit["name"]; ?></h3>
         <p><b><?php echo $produit["price"]; ?> €</b></p>
         <p><?php echo $produit["description"];?></p>
@@ -187,7 +214,7 @@ $categorie = $_GET["categorie"] ?? "";
 
 <?php foreach($produits as $produit){
     if($produit["categorie"] == "Dessert Do Brazil"&&(!$search || stripos($produit["name"], $search) !== false )&&( !$categorie || $produit["categorie"] == $categorie)){ ?>
-    <div class="product-card dessert" data-price="<?php echo $produit["price"]; ?>" data-name="<?php echo $produit["name"]; ?>">
+    <div class="product-card dessert" data-price="<?php echo $produit["price"]; ?>" data-name="<?php echo $produit["name"]; ?>"; data-allergenes="<?php echo implode(',', $produit["allergenes"]); ?>">
         <h3><?php echo $produit["name"]; ?></h3>
         <p><b><?php echo $produit["price"]; ?> €</b></p>
         <p><?php echo $produit["description"];?></p>
@@ -214,7 +241,7 @@ $categorie = $_GET["categorie"] ?? "";
 
 <?php foreach($produits as $produit){
     if($produit["categorie"] == "Boisson Do Brazil"&&(!$search || stripos($produit["name"], $search) !== false )&&( !$categorie || $produit["categorie"] == $categorie)){ ?>
-    <div class="product-card boisson" data-price="<?php echo $produit["price"]; ?>" data-name="<?php echo $produit["name"]; ?>">
+    <div class="product-card boisson" data-price="<?php echo $produit["price"]; ?>" data-name="<?php echo $produit["name"]; ?>"; data-allergenes="<?php echo implode(',', $produit["allergenes"]); ?>">
         <h3><?php echo $produit["name"]; ?></h3>
         <p><b><?php echo $produit["price"]; ?> €</b></p>
         <p><?php echo $produit["description"];?></p>
