@@ -1,6 +1,7 @@
 <?php
 session_start();
 include("fonctions.php");
+checkBlocked();
 
 if(!isset($_SESSION["user"])){
     header("Location: connexion.php");

@@ -1,6 +1,7 @@
 <?php
 session_start();
 include("fonctions.php");
+checkBlocked();
 
 // sécurité
 if(!isset($_SESSION["user"])){
