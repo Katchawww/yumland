@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Copa Cabanane 🍌</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link id="theme-style" rel="stylesheet" href="css/style.css">
     <link rel="icon" type="image/jpg" href="images/favicon.jpg">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 </head>
@@ -44,7 +44,7 @@
 </header>
 
 <div class="infos">
-    📍 Paris | 🕒 11h–23h | 📞 01 23 45 67 89
+    📍 Paris | 🕒 11h–23h | 📞 01 23 45 67 89   | <button onclick="toggleTheme()"> ☀️/🌙</button>
     <?php if(isset($_SESSION["user"])): ?>
     <p>Bienvenue <?php echo $_SESSION["user"]["name"]; ?> 🍌</p>
     <?php endif; ?>
@@ -119,5 +119,7 @@
     </nav>  
 </footer>
 
+
+<script src="js/theme.js"></script>
 </body>
 </html>

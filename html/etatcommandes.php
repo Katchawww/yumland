@@ -62,7 +62,7 @@ if(isset($_POST["status"])){
 <head>
     <meta charset="UTF-8">
     <title>Copa Cabanane 🍌</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link id="theme-style" rel="stylesheet" href="css/style.css">
     <link rel="icon" type="image/jpg" href="images/favicon.jpg">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 </head>
@@ -106,6 +106,7 @@ if(isset($_POST["status"])){
 
 </form>
 </section>
+<script src="js/theme.js"></script>
 </body>
 
 <footer>
@@ -117,5 +118,4 @@ if(isset($_POST["status"])){
      | <a href="https://www.tiktok.com/fr/">Tiktok</a></p> 
     </nav>  
 </footer>
-
 </html>

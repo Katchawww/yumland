@@ -12,7 +12,7 @@ $categorie = $_GET["categorie"] ?? "";
 <head>
     <meta charset="UTF-8">
     <title>Nos plats – Copa Cabanane 🍌</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link id="theme-style" rel="stylesheet" href="css/style.css">
     <link rel="icon" type="image/jpg" href="images/favicon.jpg">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 </head>
@@ -64,17 +64,34 @@ $categorie = $_GET["categorie"] ?? "";
     <a href="produits.php?categorie=Menu Do Brazil">🍌 Menus</a></nav>
 </section>
 
+<section class="filters">
+    <select id="tri">
+        <option value="">-- Trier par --</option>
+
+        <option value="prix+">
+            Prix croissant
+        </option>
+
+        <option value="prix-">
+            Prix décroissant
+        </option>
+
+        <option value="tri-nom">
+            Ordre alphabétique
+        </option>
+    </select>
+</section>
 
 <!-- LISTE DES PRODUITS -->
 <section>
     <h2 textalign: center>Menus Do Brazil</h2>
 </section>
 
-<section class="cards">
+<section class="cards menus">
 
 <?php foreach($menus as $menu){
     if($menu["categorie"] == "Menu Do Brazil" &&(!$search || stripos($menu["name"], $search) !== false )&&( !$categorie || $menu["categorie"] == $categorie)){ ?>
-    <div class="product-card">
+    <div class="product-card menu" data-price="<?php echo $menu["price"]; ?>" data-name="<?php echo $menu["name"]; ?>">
         <h3><?php echo $menu["name"]; ?></h3>
         <p><b><?php echo $menu["price"]; ?> €</b></p>
         <p><b>Contenu du menu :</b></p>
@@ -111,11 +128,11 @@ $categorie = $_GET["categorie"] ?? "";
     <h2 textalign: center>Entrées Do Brazil</h2>
 </section>
 
-<section class="cards">
+<section class="cards entrees">
 
 <?php foreach($produits as $produit){
     if($produit["categorie"] == "Entrée Do Brazil" &&(!$search || stripos($produit["name"], $search) !== false )&&( !$categorie || $produit["categorie"] == $categorie)){ ?>
-    <div class="product-card">
+    <div class="product-card entree" data-price="<?php echo $produit["price"]; ?>" data-name="<?php echo $produit["name"]; ?>">
         <h3><?php echo $produit["name"]; ?></h3>
         <p><b><?php echo $produit["price"]; ?> €</b></p>
         <p><?php echo $produit["description"];?></p>
@@ -139,11 +156,11 @@ $categorie = $_GET["categorie"] ?? "";
     <h2 textalign: center>Plats Do Brazil</h2>
 </section>
 
-<section class="cards">
+<section class="cards plats">
 
 <?php foreach($produits as $produit){
     if($produit["categorie"] == "Plat Do Brazil"&&(!$search || stripos($produit["name"], $search) !== false )&&( !$categorie || $produit["categorie"] == $categorie)){ ?>
-    <div class="product-card">
+    <div class="product-card plat" data-price="<?php echo $produit["price"]; ?>" data-name="<?php echo $produit["name"]; ?>">
         <h3><?php echo $produit["name"]; ?></h3>
         <p><b><?php echo $produit["price"]; ?> €</b></p>
         <p><?php echo $produit["description"];?></p>
@@ -166,11 +183,11 @@ $categorie = $_GET["categorie"] ?? "";
     <h2 textalign: center>Dessert Do Brazil</h2>
 </section>
 
-<section class="cards">
+<section class="cards desserts">
 
 <?php foreach($produits as $produit){
     if($produit["categorie"] == "Dessert Do Brazil"&&(!$search || stripos($produit["name"], $search) !== false )&&( !$categorie || $produit["categorie"] == $categorie)){ ?>
-    <div class="product-card">
+    <div class="product-card dessert" data-price="<?php echo $produit["price"]; ?>" data-name="<?php echo $produit["name"]; ?>">
         <h3><?php echo $produit["name"]; ?></h3>
         <p><b><?php echo $produit["price"]; ?> €</b></p>
         <p><?php echo $produit["description"];?></p>
@@ -193,11 +210,11 @@ $categorie = $_GET["categorie"] ?? "";
     <h2 textalign: center>Boissons Do Brazil</h2>
 </section>
 
-<section class="cards">
+<section class="cards boissons">
 
 <?php foreach($produits as $produit){
     if($produit["categorie"] == "Boisson Do Brazil"&&(!$search || stripos($produit["name"], $search) !== false )&&( !$categorie || $produit["categorie"] == $categorie)){ ?>
-    <div class="product-card">
+    <div class="product-card boisson" data-price="<?php echo $produit["price"]; ?>" data-name="<?php echo $produit["name"]; ?>">
         <h3><?php echo $produit["name"]; ?></h3>
         <p><b><?php echo $produit["price"]; ?> €</b></p>
         <p><?php echo $produit["description"];?></p>
@@ -215,7 +232,6 @@ $categorie = $_GET["categorie"] ?? "";
 
 <?php } }?>
 </section>
-
 <!-- FOOTER -->
 <footer>
     © 2026 – Copa Cabanane 🍌
@@ -227,5 +243,7 @@ $categorie = $_GET["categorie"] ?? "";
     </nav>  
 </footer>
 
+<script src="js/theme.js"></script>
+<script src="js/tri.js"></script>
 </body>
 </html>
