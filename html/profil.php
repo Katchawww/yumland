@@ -46,8 +46,19 @@ if(isset($_POST["name"])){
     }
 
     // sauvegarde
+    if(
+        empty($_POST["name"]) ||
+        empty($_POST["surname"]) ||
+        empty($_POST["login"]) ||
+        empty($_POST["phone"]) ||
+        empty($_POST["address"])
+    ){
+        echo "error";
+        exit;
+    }
+    
     saveData("json/utilisateurs.json", $newUsers);
-    header("Location: profil.php");
+    echo "success";
     exit;
 }
 ?>
@@ -59,7 +70,7 @@ if(isset($_POST["name"])){
     <title>Profil – Copa Cabanane 🍌</title>
 
     <link rel="icon" type="image/jpg" href="images/favicon.jpg">
-    <link rel="stylesheet" href="css/style.css">
+    <link id="theme-style" rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
@@ -85,7 +96,7 @@ if(isset($_POST["name"])){
     <!-- INFOS UTILISATEUR -->
     <div class="card">
         <h2>📋 Informations personnelles</h2>
-        <form method="POST">
+        <form method="POST" id="form-profil">
 
     <label><b>Nom :</label></b><br>
     <input type="text" name="name" value="<?php echo $user["name"]; ?>"><br><br>
@@ -109,6 +120,7 @@ if(isset($_POST["name"])){
     <?php echo $user ["statut"]; ?><br><br>
 
     <button type="submit">💾 Enregistrer</button>
+    <p id="profil-success"></p>
 </form>
     </div>
 
@@ -173,5 +185,7 @@ if(isset($_POST["name"])){
          | <a href="https://www.tiktok.com/fr/">Tiktok</a></p> 
 </footer>
 
+<script src="js/theme.js"></script>
+<script src="js/profil.js"></script>
 </body>
 </html>

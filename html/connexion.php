@@ -43,7 +43,7 @@ $error = "Login incorrect";
     <title>Connexion – Copa Cabanane 🍌</title>
 
     <link rel="icon" type="image/jpg" href="images/favicon.jpg">
-    <link rel="stylesheet" href="css/style.css">
+    <link id="theme-style" rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
@@ -97,5 +97,6 @@ $error = "Login incorrect";
     </nav>   
 </footer>
 
+<script src="js/theme.js"></script>
 </body>
 </html>
