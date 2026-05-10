@@ -34,7 +34,7 @@ $panier = $_SESSION["panier"];
 <head>
     <meta charset="UTF-8">
     <title>Nos plats – Copa Cabanane 🍌</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link id="theme-style" rel="stylesheet" href="css/style.css">
     <link rel="icon" type="image/jpg" href="images/favicon.jpg">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 </head>
@@ -125,5 +125,6 @@ foreach($panier as $index => $item){
     </nav>  
 </footer>
 
+<script src="js/theme.js"></script>
 </body>
 </html>

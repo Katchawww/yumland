@@ -27,7 +27,7 @@ $produits = readData("json/plats.json");
     <title>Livraison – Copa Cabanane 🍌</title>
 
     <link rel="icon" type="image/jpg" href="images/favicon.jpg">
-    <link rel="stylesheet" href="css/style.css">
+    <link id="theme-style" rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
@@ -108,5 +108,6 @@ $produits = readData("json/plats.json");
     © 2026 – Copa Cabanane 🍌
 </footer>
 
+<script src="js/theme.js"></script>
 </body>
 </html>
