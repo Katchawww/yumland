@@ -30,7 +30,7 @@ if(isset($_POST["login"]) && isset($_POST["password"]) && isset($_POST["name"]))
 <head>
     <meta charset="UTF-8">
     <title>Inscription – Copa Cabanane 🍌</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link id="theme-style" rel="stylesheet" href="css/style.css">
     <link rel="icon" type="image/jpg" href="images/favicon.jpg">
 </head>
 <body>
@@ -54,7 +54,7 @@ if(isset($_POST["login"]) && isset($_POST["password"]) && isset($_POST["name"]))
     <h1>📝 Inscription</h1>
     <p>Créez votre compte pour commander plus rapidement</p>
 
-    <form class="form" method="POST" action="inscription.php">
+    <form class="form" method="POST" action="inscription.php" id="formulaire-inscription">
         <label>Nom</label>
         <input type="text" placeholder="Votre nom" name="name" required>
 
@@ -62,16 +62,23 @@ if(isset($_POST["login"]) && isset($_POST["password"]) && isset($_POST["name"]))
         <input type="text" placeholder="Votre prénom" name="surname" required>
 
         <label>Email</label>
-        <input type="email" placeholder="exemple@mail.com" name="login" required>
+        <input type="email" placeholder="exemple@mail.com" name="login" id="login" required>
+        <p class="error" id="login-error"></p>
 
         <label>Téléphone</label>
-        <input type="tel" placeholder="06 12 34 56 78" name="phone" required>
+        <input type="tel" placeholder="06 12 34 56 78" name="phone" id="phone" required>
+        <p class="error" id="phone-error"></p>
 
         <label>Adresse</label>
         <input type="text" placeholder="Adresse complète" name="address" required>
 
         <label>Mot de passe</label>
-        <input type="text" placeholder="Mot de Passe" name="password" required>
+        <div class="password-container">
+            <input type="password" placeholder="Mot de passe" name="password" id="password" maxlength="20" required>
+        <button type="button" onclick="togglePassword()">👁️</button>
+        </div>
+        <p id="password-counter">0/20 caractères</p>
+        <p class="error" id="password-error"></p>
 
         <button type="submit">S'inscrire</button>
         <nav><p style="text-align:center; margin-top:15px;">
@@ -92,5 +99,7 @@ if(isset($_POST["login"]) && isset($_POST["password"]) && isset($_POST["name"]))
     </nav>  
 </footer>
 
+<script src="js/theme.js"></script>
+<script src="js/validation.js"></script>
 </body>
 </html>
