@@ -46,7 +46,7 @@ if($status === "accepted"){
 <head>
     <meta charset="UTF-8">
     <title>Résultat du paiement</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link id="theme-style" rel="stylesheet" href="css/style.css">
     <link rel="icon" type="image/jpg" href="images/favicon.jpg">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 </head>
@@ -91,5 +91,6 @@ if($status === "accepted"){
     </nav>  
 </footer>
 
+<script src="js/theme.js"></script>
 </body>
 </html>

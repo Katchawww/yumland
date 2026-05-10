@@ -16,7 +16,7 @@ $user = $_SESSION["user"];
     <title>Administration – Copa Cabanane 🍌</title>
 
     <link rel="icon" type="image/jpg" href="images/favicon.jpg">
-    <link rel="stylesheet" href="css/style.css">
+    <link id="theme-style" rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
@@ -72,5 +72,6 @@ $user = $_SESSION["user"];
     © 2026 – Copa Cabanane 🍌
 </footer>
 
+<script src="js/theme.js"></script>
 </body>
 </html>
