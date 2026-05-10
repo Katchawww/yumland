@@ -1,6 +1,7 @@
 <?php
 session_start();
 include("fonctions.php");
+checkBlocked();
 
 $orders = readData("json/commandes.json");
 

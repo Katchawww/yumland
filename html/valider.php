@@ -41,10 +41,12 @@ foreach($panier as $item){
 $newOrder = [
     "id" => $id,
     "client" => $user["login"],
-    "status" => "en_attente",
+    "status" => "en_attente_paiement",
     "date" => $date,
     "items" => $panier,
-    "livreur" => "aucun"
+    "livreur" => "aucun",
+    "total" => $total,
+    "paiements"=> []
 ];
 
 $orders[] = $newOrder;
