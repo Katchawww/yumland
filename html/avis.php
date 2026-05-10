@@ -40,7 +40,7 @@ if(isset($_POST["note"])){
     <title>Avis – Copa Cabanane 🍌</title>
 
     <link rel="icon" type="image/jpg" href="images/favicon.jpg">
-    <link rel="stylesheet" href="css/style.css">
+    <link id="theme-style" rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
@@ -109,5 +109,6 @@ if(!isset($order)){
     </nav>   
 </footer>
 
+<script src="js/theme.js"></script>
 </body>
 </html>
