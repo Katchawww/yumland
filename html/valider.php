@@ -51,9 +51,6 @@ $newOrder = [
 
 $orders[] = $newOrder;
 
-saveData("json/commandes.json", $orders);
-
-
 
 //CYBANK
 
@@ -71,15 +68,19 @@ $control = md5(
     $vendeur . "#" .
     $retour . "#"
 );
+saveData("json/commandes.json", $orders);
+unset($_SESSION['csrf']);
+unset($_SESSION["panier"]);
 ?>
 
 <form id="payForm" action="https://www.plateforme-smc.fr/cybank/index.php" method="POST">
-    <input type="hidden" name="transaction" value="<?= $transaction ?>">
+    <input type="hidden" name="transaction" value="<?= htmlspecialchars($transaction) ?>">
     <input type="hidden" name="montant" value="<?= $montant ?>">
     <input type="hidden" name="vendeur" value="<?= $vendeur ?>">
     <input type="hidden" name="retour" value="<?= $retour ?>">
     <input type="hidden" name="control" value="<?= $control ?>">
 </form>
+
 
 <script>
 document.getElementById("payForm").submit();

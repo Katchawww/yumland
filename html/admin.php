@@ -1,5 +1,6 @@
 <?php session_start();
 include("fonctions.php");
+checkBlocked();
 
 // Sécurité sinon redirection vers connexion
 if(!isset($_SESSION["user"])){
@@ -55,16 +56,20 @@ $users = readData("json/utilisateurs.json");
                 <th>Rôle</th>
                 <th>Actions</th>
                 <th>Statut</th>
+                <th>Blocage</th>
             </tr>
             <?php foreach($users as $user){ ?>
             <tr>
-                <td><nav><a href="profil.php?login=<?php echo $user["login"]; ?>"><?php echo $user["name"]; ?></a></nav></td>
-                <td><?php echo $user["surname"]; ?></td>
-                <td><?php echo $user["login"]; ?></td>
-                <td><?php echo $user["role"]; ?></td>
+                <td><nav><a href="profil.php?login=<?php echo $user["login"]; ?>"><?php echo htmlspecialchars($user["name"]); ?></a></nav></td>
+                <td><?php echo htmlspecialchars($user["surname"]); ?></td>
+                <td><?php echo htmlspecialchars($user["login"]); ?></td>
+                <td><?php echo htmlspecialchars($user["role"]); ?></td>
                 <td><nav><a href="modifier.php?login=<?php echo $user["login"]; ?>">✏️ Modifier</a> |
                 <a href="supprimer.php?login=<?php echo $user["login"]; ?>"onclick="return confirm('Supprimer cet utilisateur ?')">🗑️ Supprimer</a></nav></td>
-                <td><?php echo $user["statut"]; ?></td>
+                <td><?php echo $user["statut"] ?? "actif"; ?></td>
+                <td><button class="block-btn" data-login="<?php echo $user["login"]; ?>" data-blocked="<?php echo (isset($user["blocked"]) && $user["blocked"]) ? '1' : '0'; ?>">
+                     <?php echo (isset($user["blocked"]) && $user["blocked"]) ? "Débloquer": "Bloquer"; ?>
+                </button></td>
             </tr>
             <?php } ?>
         </table>
@@ -80,5 +85,6 @@ $users = readData("json/utilisateurs.json");
 </footer>
 
 <script src="js/theme.js"></script>
+<script src="js/block.js"></script>
 </body>
 </html>
