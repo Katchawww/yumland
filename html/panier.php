@@ -19,13 +19,20 @@ if(isset($_POST["dish"])){
 
     $_SESSION["panier"][] = [
         "dish" => intval($_POST["dish"]),
-        "qty" => intval($_POST["qty"])
+        "qty" => intval($_POST["qty"]),
     ];
+    unset($_SESSION['csrf']);
+
 }
 
 // supprimer produit
 if(isset($_GET["remove"])){
-    unset($_SESSION["panier"][$_GET["remove"]]);
+
+    $index = intval($_GET["remove"]);
+
+    if(isset($_SESSION["panier"][$index])){
+        unset($_SESSION["panier"][$index]);
+    }
 }
 
 $panier = $_SESSION["panier"];
@@ -44,8 +51,7 @@ $panier = $_SESSION["panier"];
 <!-- HEADER -->
 <header class="header">
     <img src="images/logo-copa-cabanane.png" alt="Logo Copa Cabanane">
-    <img src="https://static.vecteezy.com/system/resources/previews/031/122/692/non_2x/france-and-brazil-flags-two-flags-vector.jpg" alt="Drapeaux France et Brésil" style="height: 100px; margin-left: 20px; border-radius: 5px; width: 350px;">
-
+    <img class="flags" src="https://static.vecteezy.com/system/resources/previews/031/122/692/non_2x/france-and-brazil-flags-two-flags-vector.jpg" alt="Drapeaux France et Brésil">
 
     <nav>
         <a href="index.php">Accueil</a>
@@ -54,7 +60,6 @@ $panier = $_SESSION["panier"];
         <a href="deconnexion.php">Déconnexion</a>
     </nav>
 </header>
-<body>
 <section class="cards">
 <div>
 <h1>🛒 Mon panier</h1>
@@ -74,9 +79,9 @@ $panier = $_SESSION["panier"];
 
 <?php
 $totalGeneral = 0;
-
+$nom = "Produit inconnu";
+$prix = 0;
 foreach($panier as $index => $item){
-
     foreach($produits as $p){
         if($p["id"] == $item["dish"]){
             $nom = $p["name"];
@@ -89,10 +94,10 @@ foreach($panier as $index => $item){
 ?>
 
 <tr>
-    <td><?php echo $nom; ?></td>
-    <td><?php echo $prix; ?> €</td>
-    <td><?php echo $item["qty"]; ?></td>
-    <td><?php echo $total; ?> €</td>
+    <td><p><?php echo htmlspecialchars($nom); ?></p></td>
+    <td><p><?php echo htmlspecialchars($prix); ?> €</p></td>
+    <td><p><?php echo htmlspecialchars($item["qty"]); ?></p></td>
+    <td><p><?php echo htmlspecialchars($total); ?> €</p></td>
     <td>
         <a href="panier.php?remove=<?php echo $index; ?>"onclick="return confirm('Supprimer ce produit ?')">❌</a>
     </td>
@@ -105,7 +110,8 @@ foreach($panier as $index => $item){
 <h3>Total : <?php echo $totalGeneral; ?> €</h3>
 
 <form method="POST" action="valider.php">
-    <label>Date de livraison :</label>
+    <input type="hidden"  name="csrf"  value="<?php echo generateCSRF(); ?>">
+    <label><p>Date de livraison :</p></label>
     <input type="datetime-local" name="date" required>
 
     <br><br>
@@ -119,8 +125,8 @@ foreach($panier as $index => $item){
 <footer>
     © 2026 – Copa Cabanane 🍌
     <nav>
-        <p>Contact us:
-        <a href="https://mail.google.com/mail/u/0/?hl=fr#inbox?compose=new">📧 contactcopacabanane@gmail.com</a>
+        <p>Contact:
+        <a href="mailto:contactcopacabanane@gmail.com">📧 contactcopacabanane@gmail.com</a>
         | <a href="https://www.instagram.com"> Instagram</a>
          | <a href="https://www.tiktok.com/fr/">Tiktok</a></p> 
     </nav>  
