@@ -83,9 +83,9 @@ $produits = readData("json/plats.json");
                 }
             ?>
 
-            <p><b>Client :</b> <?php echo $clientInfo["name"] . " " . $clientInfo["surname"]; ?></p>
-            <p><b>Téléphone :</b> <?php echo $clientInfo["phone"]; ?></p>
-            <p><b>Adresse :</b> <?php echo $clientInfo["address"]; ?></p>
+            <p><b>Client :</b> <?php echo htmlspecialchars($clientInfo["name"]) . " " . htmlspecialchars($clientInfo["surname"]); ?></p>
+            <p><b>Téléphone :</b> <?php echo htmlspecialchars($clientInfo["phone"]); ?></p>
+            <p><b>Adresse :</b> <?php echo htmlspecialchars($clientInfo["address"]); ?></p>
 
             <nav><a href="https://www.google.com/maps/search/<?php echo urlencode($clientInfo["address"]); ?>" target="_blank">
             📍 Afficher sur la carte</a></nav>
