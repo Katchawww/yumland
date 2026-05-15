@@ -9,17 +9,35 @@ if(isset($_POST["login"]) && isset($_POST["password"]) && isset($_POST["name"]))
     $newUser = [
         "id" => count($users)+1,
         "login" => $_POST["login"],
-        "password" => $_POST["password"],
+        "password" => password_hash($_POST["password"], PASSWORD_DEFAULT),
         "role" => "client",
         "name" => $_POST["name"],
         "surname" => $_POST["surname"],
         "phone" => $_POST["phone"],
         "address" => $_POST["address"]
     ];
-
     $users[] = $newUser;
 
+    $login = trim($_POST["login"]);
+    $name = htmlspecialchars(trim($_POST["name"]));
+    $surname = htmlspecialchars(trim($_POST["surname"]));
+
+    if(!filter_var($login, FILTER_VALIDATE_EMAIL)){
+        die("Email invalide");
+    }
+
+    if(!preg_match("/^[0-9 ]{8,15}$/", $_POST["phone"])){
+        die("Téléphone invalide");
+    }
+
+    foreach($users as $u){
+        if($u["login"] == $login){
+            die("Compte déjà existant");
+        }
+    }
+
     saveData("json/utilisateurs.json", $users);
+    unset($_SESSION['csrf']);
 
     header("Location: connexion.php");
     exit;
@@ -55,6 +73,7 @@ if(isset($_POST["login"]) && isset($_POST["password"]) && isset($_POST["name"]))
     <p>Créez votre compte pour commander plus rapidement</p>
 
     <form class="form" method="POST" action="inscription.php" id="formulaire-inscription">
+        <input type="hidden" name="csrf" value="<?php echo generateCSRF(); ?>">
         <label>Nom</label>
         <input type="text" placeholder="Votre nom" name="name" required>
 
@@ -92,8 +111,8 @@ if(isset($_POST["login"]) && isset($_POST["password"]) && isset($_POST["name"]))
 <footer>
     © 2026 – Copa Cabanane 🍌
     <nav>
-        <p>Contact us:
-        <a href="https://mail.google.com/mail/u/0/?hl=fr#inbox?compose=new">📧 contactcopacabanane@gmail.com</a>
+        <p>Contact:
+        <a href="mailto:contactcopacabanane@gmail.com">📧 contactcopacabanane@gmail.com</a>
         | <a href="https://www.instagram.com"> Instagram</a>
          | <a href="https://www.tiktok.com/fr/">Tiktok</a></p> 
     </nav>  

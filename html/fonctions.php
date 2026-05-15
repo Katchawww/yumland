@@ -10,42 +10,37 @@ function readData($file){
 }
 
 function saveData($file, $data){
-    file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT));
+    file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT), LOCK_EX);
 }
-
-
-
 
 
 function checkBlocked(){
 
-$users =
-readData("json/utilisateurs.json");
-
-
-
+$users = readData("json/utilisateurs.json");
 foreach($users as $u){
 
     if(
-        isset($_SESSION["user"])
-        &&
-        $u["login"] ==
-        $_SESSION["user"]["login"]
+        isset($_SESSION["user"]) && isset($u["login"]) && $u["login"] == $_SESSION["user"]["login"]
     ){
 
         if(
-            isset($u["blocked"])
-            &&
-            $u["blocked"]
+            isset($u["blocked"]) && $u["blocked"]
         ){
-
+            $_SESSION = [];
             session_destroy();
-
             header("Location: connexion.php");
-
             exit;
         }
     }
 }
+}
+
+function generateCSRF(){
+
+if(empty($_SESSION['csrf'])){
+    $_SESSION['csrf'] = bin2hex(random_bytes(32));
+}
+
+return $_SESSION['csrf'];
 }
 ?>
