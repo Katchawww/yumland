@@ -49,28 +49,44 @@ if(
 
 
 // commande modifiable seulement si payée
-if($order["status"] != "payee"){
+if(!isset($order) || $order["status"] != "payee"){
     exit("Commande non modifiable");
 }
 
 
 // modifier quantités
 if(isset($_POST["update"])){
-    $nouveauTotal = 0;
+    $newItems = [];
+$nouveauTotal = 0;
 
-    foreach($order["items"] as &$item){
-        $dishId = $item["dish"];
+$validIds = array_column($produits, "id");
+foreach($_POST["qty"] as $dishId => $qty){
 
-        if(isset($_POST["qty"][$dishId])){
-            $item["qty"] = intval($_POST["qty"][$dishId]);
-        }
+    if(!in_array($dishId, $validIds)){
+        continue;
+    }
+
+    $qty = intval($qty);
+    if($qty < 0 || $qty > 99){
+        continue;
+    }
+
+    if($qty > 0){
+
+        $newItems[] = [
+            "dish" => intval($dishId),
+            "qty" => $qty
+        ];
 
         foreach($produits as $p){
+
             if($p["id"] == $dishId){
-                $nouveauTotal += $p["price"] * $item["qty"];
+
+                $nouveauTotal += $p["price"] * $qty;
             }
         }
     }
+}
 
 
     // comparer ancien / nouveau total
@@ -79,7 +95,7 @@ if(isset($_POST["update"])){
     foreach($orders as &$o){
 
         if($o["id"] == $id){
-            $o["items"] = $order["items"];
+            $o["items"] = $newItems;
             $o["total"] = $nouveauTotal;
         }
     }
@@ -139,15 +155,25 @@ if(isset($_POST["update"])){
 
 <?php
 if(isset($message)){
-    echo "<p><b>".$message."</b></p>";
+    echo "<p><b>".htmlspecialchars($message)."</b></p>";
 }
 ?>
 
 <form method="POST">
+<input type="hidden" name="csrf" value="<?php echo generateCSRF(); ?>">
 <?php
-foreach($order["items"] as $item){
-    foreach($produits as $p){
-        if($p["id"] == $item["dish"]){
+foreach($produits as $p){
+
+    $qty = 0;
+
+    // vérifier si le produit existe déjà dans la commande
+    foreach($order["items"] as $item){
+
+        if($item["dish"] == $p["id"]){
+
+            $qty = $item["qty"];
+        }
+    }
 ?>
 
 <div class="card">
@@ -157,16 +183,12 @@ foreach($order["items"] as $item){
     <br><br>
 
     Quantité :
-    <input type="number" name="qty[<?php echo $p["id"]; ?>]" value="<?php echo $item["qty"]; ?>" min="0" max="99">
+    <input type="number" name="qty[<?php echo $p["id"]; ?>]" value="<?php echo $qty; ?>" min="0" max="99">
 </div>
 
 <br>
 
-<?php
-        }
-    }
-}
-?>
+<?php }?>
 
 <button type="submit" name="update">
     💾 Mettre à jour la commande
@@ -181,8 +203,8 @@ foreach($order["items"] as $item){
 <footer>
     © 2026 – Copa Cabanane 🍌
     <nav>
-        <p>Contact us:
-        <a href="https://mail.google.com/mail/u/0/?hl=fr#inbox?compose=new">📧 contactcopacabanane@gmail.com</a>
+        <p>Contact :
+        <a href="mailto:contactcopacabanane@gmail.com">📧 contactcopacabanane@gmail.com</a>
         | <a href="https://www.instagram.com"> Instagram</a>
          | <a href="https://www.tiktok.com/fr/">Tiktok</a></p> 
     </nav>  
