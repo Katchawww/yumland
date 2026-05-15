@@ -8,6 +8,7 @@ if(!isset($_SESSION["user"])){
     exit;
 }
 
+
 $users = readData("json/utilisateurs.json");
 
 if(isset($_GET["login"])){
@@ -22,7 +23,7 @@ if(isset($_GET["login"])){
     }
 
     // sauvegarde
-    saveData("json/commandes.json", $newUsers);
+    saveData("json/utilisateurs.json", $newUsers);
 
 }
 

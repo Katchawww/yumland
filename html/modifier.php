@@ -1,11 +1,15 @@
 <?php
 session_start();
 include("fonctions.php");
+checkBlocked();
 
 // sécurité
 if(!isset($_SESSION["user"])){
     header("Location: connexion.php");
     exit;
+}
+if(!isset($_SESSION["user"]) || $_SESSION["user"]["role"] != "admin"){
+    exit("Accès refusé");
 }
 
 $users = readData("json/utilisateurs.json");
@@ -75,30 +79,31 @@ if(isset($_POST["name"])){
 <h2>✏️ Modifier utilisateur</h2>
 
 <form method="POST">
+<input type="hidden" name="csrf" value="<?= generateCSRF(); ?>">
 
-    <label><b>Nom :</label></b><br>
+    <label><b>Nom :</b></label><br>
     <input type="text" name="name" value="<?php echo $user["name"]; ?>"><br><br>
 
-    <label><b>Prénom :</label></b><br>
+    <label><b>Prénom :</b></label><br>
     <input type="text" name="surname" value="<?php echo $user["surname"]; ?>"><br><br>
 
-    <label><b>Email :</label></b><br>
+    <label><b>Email :</b></label><br>
     <input type="text" name="login" value="<?php echo $user["login"]; ?>"><br><br>
 
-    <label><b>Rôle :</label></b><br>
+    <label><b>Rôle :</b></label><br>
     <select name="role">
         <option <?php if($user["role"]=="client") echo "selected"; ?>>client</option>
         <option <?php if($user["role"]=="admin") echo "selected"; ?>>admin</option>
     </select><br><br>
 
-    <label><b>Statut :</label></b><br>
+    <label><b>Statut :</b></label><br>
     <select name="statut">
          <option <?php if($user["statut"]=="aucun") echo "selected"; ?>>aucun</option>
          <option <?php if($user["statut"]=="VIP") echo "selected"; ?>>VIP</option>
          <option <?php if($user["statut"]=="Rei de la jungle") echo "selected"; ?>>Rei de la jungle</option>
     </select><br><br>
 
-    <label><b>Remise :</label></b><br>
+    <label><b>Remise :</b></label><br>
     <select name="remise">
          <option <?php if($user["remise"]=="aucun") echo "selected"; ?>>aucun</option>
          <option <?php if($user["remise"]=="5%") echo "selected"; ?>>5%</option>
@@ -114,8 +119,8 @@ if(isset($_POST["name"])){
 <footer>
     <p>© 2026 – Copa Cabanane 🍌 | Soleil dans l’assiette </p>
     <nav>
-    <p>Contact us:
-    <a href="https://mail.google.com/mail/u/0/?hl=fr#inbox?compose=new">📧 contactcopacabanane@gmail.com</a>
+    <p>Contact :
+    <a href="mailto:contactcopacabanane@gmail.com">📧 contactcopacabanane@gmail.com</a>
     | <a href="https://www.instagram.com"> Instagram</a>
      | <a href="https://www.tiktok.com/fr/">Tiktok</a></p> 
     </nav>  
