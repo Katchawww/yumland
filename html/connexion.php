@@ -2,6 +2,7 @@
 session_start();
 include("fonctions.php");
 
+
 if(isset($_POST["login"]) && isset($_POST["password"])){
 $users = readData("json/utilisateurs.json");
 $livreurs = readData("json/livreurs.json");
@@ -20,15 +21,20 @@ foreach($users as $user){
 
  if($user["login"] == $_POST["login"] &&
     $user["password"] == $_POST["password"]){
+    session_regenerate_id(true);
 
     $_SESSION["user"] = $user;
     if($user["role"] == "admin"){
-        header("Location: ../admin.php");} 
+        header("Location: ../admin.php");
+        exit;
+    } 
     else if($user["role"] == "restaurateur"){
-        header("Location: ../restauration.php");}
+        header("Location: ../restauration.php");
+        exit;
+    }
     else {
-    header("Location: ../profil.php");
-    exit;
+        header("Location: ../profil.php");
+        exit;
  }
 }
 }
@@ -67,6 +73,7 @@ $error = "Login incorrect";
     <p>Connectez-vous à votre compte Copa Cabanane</p>
     <br><br>
     <form class="form" method="POST" action="connexion.php">
+    <input type="hidden" name="csrf" value="<?php echo generateCSRF(); ?>">
         <label>Email</label>
         <input type="email" name="login" required placeholder="exemple@mail.com">
 
@@ -90,8 +97,8 @@ $error = "Login incorrect";
 <footer>
     © 2026 – Copa Cabanane 🍌
     <nav>
-        <p>Contact us:
-        <a href="https://mail.google.com/mail/u/0/?hl=fr#inbox?compose=new">📧 contactcopacabanane@gmail.com</a>
+        <p>Contact:
+        <a href="mailto:contactcopacabanane@gmail.com">📧 contactcopacabanane@gmail.com</a>
         | <a href="https://www.instagram.com"> Instagram</a>
          | <a href="https://www.tiktok.com/fr/">Tiktok</a></p> 
     </nav>   

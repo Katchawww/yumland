@@ -9,8 +9,7 @@ if(!isset($_SESSION["user"])){
 $users = readData("json/utilisateurs.json");
 
 // Si on clique depuis admin
-if(isset($_GET["login"])){
-
+if(isset($_GET["login"]) && $_SESSION["user"]["role"] == "admin"){
     $login = $_GET["login"];
 
     foreach($users as $u){
@@ -91,21 +90,22 @@ if(isset($_POST["name"])){
 <!-- PROFIL -->
 <section>
     <h1>👤 Mon profil</h1>
-    <p>Bienvenue <?php echo $user ["name"]; ?> 🍌 </p>
+    <p>Bienvenue <?php echo htmlspecialchars($user["name"]); ?> 🍌 </p>
 
     <!-- INFOS UTILISATEUR -->
     <div class="card">
         <h2>📋 Informations personnelles</h2>
         <form method="POST" id="form-profil">
+        <input type="hidden" name="csrf" value="<?= generateCSRF(); ?>">
 
     <label><b>Nom :</label></b><br>
-    <input type="text" name="name" value="<?php echo $user["name"]; ?>"><br><br>
+    <input type="text" name="name" value="<?php echo htmlspecialchars($user["name"]); ?>"><br><br>
 
     <label><b>Prénom :</label></b><br>
-    <input type="text" name="surname" value="<?php echo $user["surname"]; ?>"><br><br>
+    <input type="text" name="surname" value="<?php echo htmlspecialchars($user["surname"]); ?>"><br><br>
 
     <label><b>Email :</label></b><br>
-    <input type="text" name="login" value="<?php echo $user["login"]; ?>"><br><br>
+    <input type="text" name="login" value="<?php echo htmlspecialchars($user["login"]); ?>"><br><br>
 
     <label><b>Téléphone :</label></b><br>
     <input type="text" name="phone" value="<?php echo $user["phone"]; ?>"><br><br>
@@ -157,6 +157,12 @@ if(isset($_POST["name"])){
                     echo "<p>Avis : ".$order["commentaire"]."</p>";
                 }
             }
+            if($order["status"] == "payee"){
+
+                echo "<nav><a href='modifier_commande.php?id=".$order["id"]."'>
+                ✏️ Modifier commande
+                </a></nav>";
+            }
             
         }
         echo "</div>";
@@ -179,10 +185,12 @@ if(isset($_POST["name"])){
 <!-- FOOTER -->
 <footer>
     © 2026 – Copa Cabanane 🍌
-    <p>Contact us:
-        <a href="https://mail.google.com/mail/u/0/?hl=fr#inbox?compose=new">📧 contactcopacabanane@gmail.com</a>
-        | <a href="https://www.instagram.com"> Instagram</a>
+    <nav>
+    <p>Contact :
+    <a href="mailto:contactcopacabanane@gmail.com">📧 contactcopacabanane@gmail.com</a>
+    | <a href="https://www.instagram.com"> Instagram</a>
          | <a href="https://www.tiktok.com/fr/">Tiktok</a></p> 
+    </nav>
 </footer>
 
 <script src="js/theme.js"></script>
