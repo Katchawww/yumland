@@ -34,6 +34,14 @@ if($control_check !== $control){
 
 // charger commandes
 $orders = readData("json/commandes.json");
+foreach($orders as &$o){
+    if(
+        $status === "accepted" && strpos($transaction, "CMD".$o["id"]) === 0
+    ){
+        $o["status"] = "payee";
+        $o["paiements"][] = $montant;
+    }
+}
 
 // sauvegarde
 saveData("json/commandes.json", $orders);
@@ -50,7 +58,6 @@ if($status === "accepted"){
     <link rel="icon" type="image/jpg" href="images/favicon.jpg">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 </head>
-<body>
 
 <!-- HEADER -->
 <header class="header">
@@ -84,8 +91,8 @@ if($status === "accepted"){
 <footer>
     © 2026 – Copa Cabanane 🍌
     <nav>
-        <p>Contact us:
-        <a href="https://mail.google.com/mail/u/0/?hl=fr#inbox?compose=new">📧 contactcopacabanane@gmail.com</a>
+        <p>Contact :
+        <a href="mailto:contactcopacabanane@gmail.com">📧 contactcopacabanane@gmail.com</a>
         | <a href="https://www.instagram.com"> Instagram</a>
          | <a href="https://www.tiktok.com/fr/">Tiktok</a></p> 
     </nav>  

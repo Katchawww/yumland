@@ -1,9 +1,14 @@
 <?php session_start();
 include("fonctions.php");
+checkBlocked();
 
 // Sécurité sinon redirection vers connexion
 if(!isset($_SESSION["user"])){
     header("Location: connexion.php");
+    exit;
+}
+if($_SESSION["user"]["role"] != "restaurateur" && $_SESSION["user"]["role"] != "admin"){
+    echo "Accès refusé";
     exit;
 }
 
@@ -44,7 +49,6 @@ $user = $_SESSION["user"];
         <h2>🧾 Listes des commandes</h2>
     
     <?php
-    $users = readData("json/utilisateurs.json");
     $orders = readData("json/commandes.json");
     ?>
 
