@@ -2,7 +2,13 @@
 
 include("fonctions.php");
 $users = readData("json/utilisateurs.json");
-$login = $_POST["login"];
+if($_SESSION["user"]["role"] != "admin"){
+    exit("Accès refusé");
+}
+if(!isset($_POST["login"])){
+    exit("Erreur");
+}
+$login = trim($_POST["login"]);
 $newUsers = [];
 $status = "";
 

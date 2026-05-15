@@ -9,6 +9,10 @@ if(!isset($_SESSION["user"])){
     exit;
 }
 
+if($_SESSION["user"]["role"] != "restaurateur" && $_SESSION["user"]["role"] != "admin"){
+    exit("Accès refusé");
+}
+
 $orders = readData("json/commandes.json");
 $livreurs = readData("json/livreurs.json");
 
@@ -48,15 +52,19 @@ if(isset($_POST["status"])){
         $newOrders[] = $o;
     }
 
+    if($_POST["status"] == "en livraison" && $_POST["livreur"] == "aucun" ){
+        die("Choisissez un livreur");
+    }
+    if ($_POST["status"] != "prete" && $_POST["livreur"] != "aucun"
+    ){
+        die("Le livreur ne peut être attribué que si la commande est prete à être livrée");
+    }
+
     saveData("json/commandes.json", $newOrders);
-
-
     header("Location: restauration.php");
     exit;
 }
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -82,21 +90,23 @@ if(isset($_POST["status"])){
 <h2>✏️ Modifier commandes</h2>
 
 <form method="POST">
+<input type="hidden" name="csrf" value="<?= generateCSRF(); ?>">
 
-    <label><b>Status :</label></b><br>
+    <label><b><p>Status :</p></b></label>
     <select name="status">
-         <option <?php if($order["status"]=="preparation") echo "selected"; ?>>preparation</option>
-         <option <?php if($order["status"]=="en attente du livreur") echo "selected"; ?>>en attente du livreur</option>
-         <option <?php if($order["status"]=="en livraison") echo "selected"; ?>>en livraison</option>
-         <option <?php if($order["status"]=="livree") echo "selected"; ?>>livrée</option>
-    </select><br><br>
+        <option value="payee" <?php if($order["status"]=="payee") echo "selected"; ?>>payée</option>
+        <option value="preparation" <?php if($order["status"]=="preparation") echo "selected"; ?>>en préparation</option>
+        <option value="prete" <?php if($order["status"]=="prete") echo "selected"; ?>>prête</option>
+        <option value="en livraison" <?php if($order["status"]=="en livraison") echo "selected"; ?>>en livraison</option>
+        <option value="livree" <?php if($order["status"]=="livree") echo "selected"; ?>>livrée</option>
+    </select><br>
 
-    <label><b>Attribuer à un livreur :</label></b><br>
+    <label><b><p>Attribuer à un livreur :</p></b></label>
     <select name="livreur">
     <option value="aucun">aucun</option>
 
     <?php foreach($livreurs as $l){ ?>
-        <option value="<?php echo $l["login"]; ?>"
+        <option value="<?php echo htmlspecialchars($l["name"]); ?>"
             <?php if(isset($order["livreur"]) && $order["livreur"] == $l["login"]) echo "selected"; ?>>
             <?php echo $l["name"]; ?>
         </option>
@@ -113,8 +123,8 @@ if(isset($_POST["status"])){
 <footer>
     <p>© 2026 – Copa Cabanane 🍌 | Soleil dans l’assiette </p>
     <nav>
-    <p>Contact us:
-    <a href="https://mail.google.com/mail/u/0/?hl=fr#inbox?compose=new">📧 contactcopacabanane@gmail.com</a>
+    <p>Contact :
+    <a href="mailto:contactcopacabanane@gmail.com">📧 contactcopacabanane@gmail.com</a>
     | <a href="https://www.instagram.com"> Instagram</a>
      | <a href="https://www.tiktok.com/fr/">Tiktok</a></p> 
     </nav>  

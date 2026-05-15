@@ -6,6 +6,7 @@ $produits = readData("json/plats.json");
 $menus = readData("json/menus.json");
 $search = $_GET["search"] ?? "";
 $categorie = $_GET["categorie"] ?? "";
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -21,7 +22,7 @@ $categorie = $_GET["categorie"] ?? "";
 <!-- HEADER -->
 <header class="header">
     <img src="images/logo-copa-cabanane.png" alt="Logo Copa Cabanane">
-    <img src="https://static.vecteezy.com/system/resources/previews/031/122/692/non_2x/france-and-brazil-flags-two-flags-vector.jpg" alt="Drapeaux France et Brésil" style="height: 100px; margin-left: 20px; border-radius: 5px; width: 350px;">
+    <img class="flags" src="https://static.vecteezy.com/system/resources/previews/031/122/692/non_2x/france-and-brazil-flags-two-flags-vector.jpg" alt="Drapeaux France et Brésil">
 
 
     <nav>
@@ -111,16 +112,16 @@ $categorie = $_GET["categorie"] ?? "";
 
 <!-- LISTE DES PRODUITS -->
 <section>
-    <h2 textalign: center>Menus Do Brazil</h2>
+    <h2>Menus Do Brazil</h2>
 </section>
 
 <section class="cards menus">
 
 <?php foreach($menus as $menu){
     if($menu["categorie"] == "Menu Do Brazil" &&(!$search || stripos($menu["name"], $search) !== false )&&( !$categorie || $menu["categorie"] == $categorie)){ ?>
-    <div class="product-card menu" data-price="<?php echo $menu["price"]; ?>" data-name="<?php echo $menu["name"]; ?>">
-        <h3><?php echo $menu["name"]; ?></h3>
-        <p><b><?php echo $menu["price"]; ?> €</b></p>
+    <div class="product-card menu" data-price="<?php echo htmlspecialchars($menu["price"]); ?>" data-name="<?php echo htmlspecialchars($menu["name"])?>">
+        <h3><?php echo htmlspecialchars($menu["name"]); ?></h3>
+        <p><b><?php echo htmlspecialchars($menu["price"]); ?> €</b></p>
         <p><b>Contenu du menu :</b></p>
         <ul>
         <?php
@@ -135,10 +136,11 @@ $categorie = $_GET["categorie"] ?? "";
         }
         ?>
         </ul>
-        <img src="images/<?php echo $menu["image"]; ?>" alt="<?php echo $menu["name"]; ?>">
+        <img src="images/<?php echo basename($menu["image"]); ?>" alt="<?php echo htmlspecialchars($menu["name"]); ?>">
 
         <form method="POST" action="panier.php">
-            <input type="hidden" name="dish" value="<?php echo $menu["id"]; ?>">
+        <input type="hidden"  name="csrf"  value="<?php echo generateCSRF(); ?>">
+            <input type="hidden" name="dish" value="<?php echo htmlspecialchars($menu["id"]); ?>>">
 
             Quantité :
             <input type="number" name="qty" value="1" min="1" max="99">
@@ -152,21 +154,22 @@ $categorie = $_GET["categorie"] ?? "";
 
 
 <section>
-    <h2 textalign: center>Entrées Do Brazil</h2>
+    <h2>Entrées Do Brazil</h2>
 </section>
 
 <section class="cards entrees">
 
 <?php foreach($produits as $produit){
     if($produit["categorie"] == "Entrée Do Brazil" &&(!$search || stripos($produit["name"], $search) !== false )&&( !$categorie || $produit["categorie"] == $categorie)){ ?>
-    <div class="product-card entree" data-price="<?php echo $produit["price"]; ?>" data-name="<?php echo $produit["name"]; ?>"; data-allergenes="<?php echo implode(',', $produit["allergenes"]); ?>">
-        <h3><?php echo $produit["name"]; ?></h3>
-        <p><b><?php echo $produit["price"]; ?> €</b></p>
-        <p><?php echo $produit["description"];?></p>
-        <img src="images/<?php echo $produit["image"]; ?>" alt="<?php echo $produit["name"]; ?>">
+    <div class="product-card entree" data-price="<?php echo htmlspecialchars($produit["price"]); ?>" data-name="<?php echo htmlspecialchars($produit["name"]); ?>"; data-allergenes="<?php echo implode(',', $produit["allergenes"])?>">
+        <h3><?php echo htmlspecialchars($produit["name"]); ?></h3>
+        <p><b><?php echo htmlspecialchars($produit["price"]); ?> €</b></p>
+        <p><?php echo htmlspecialchars($produit["description"]); ?></p>
+        <img src="images/<?php echo basename($produit["image"]); ?>" alt="<?php echo htmlspecialchars($produit["name"]); ?>">
 
         <form method="POST" action="panier.php">
-            <input type="hidden" name="dish" value="<?php echo $produit["id"]; ?>">
+        <input type="hidden"  name="csrf"  value="<?php echo generateCSRF(); ?>">
+            <input type="hidden" name="dish" value="<?php echo htmlspecialchars($produit["id"]); ?>">
 
             Quantité :
             <input type="number" name="qty" value="1" min="1" max="99">
@@ -180,21 +183,22 @@ $categorie = $_GET["categorie"] ?? "";
 
 
 <section>
-    <h2 textalign: center>Plats Do Brazil</h2>
+    <h2>Plats Do Brazil</h2>
 </section>
 
 <section class="cards plats">
 
 <?php foreach($produits as $produit){
     if($produit["categorie"] == "Plat Do Brazil"&&(!$search || stripos($produit["name"], $search) !== false )&&( !$categorie || $produit["categorie"] == $categorie)){ ?>
-    <div class="product-card plat" data-price="<?php echo $produit["price"]; ?>" data-name="<?php echo $produit["name"]; ?>"; data-allergenes="<?php echo implode(',', $produit["allergenes"]); ?>">
-        <h3><?php echo $produit["name"]; ?></h3>
-        <p><b><?php echo $produit["price"]; ?> €</b></p>
-        <p><?php echo $produit["description"];?></p>
-        <img src="images/<?php echo $produit["image"]; ?>" alt="<?php echo $produit["name"]; ?>">
+    <div class="product-card plat" data-price="<?php echo htmlspecialchars($produit["price"]); ?>" data-name="<?php echo htmlspecialchars($produit["name"]); ?>"; data-allergenes="<?php echo implode(',', $produit["allergenes"])?>">
+        <h3><?php echo htmlspecialchars($produit["name"]); ?></h3>
+        <p><b><?php echo htmlspecialchars($produit["price"]); ?> €</b></p>
+        <p><?php echo htmlspecialchars($produit["description"]); ?></p>
+        <img src="images/<?php echo basename($produit["image"]); ?>" alt="<?php echo htmlspecialchars($produit["name"]); ?>">
 
         <form method="POST" action="panier.php">
-            <input type="hidden" name="dish" value="<?php echo $produit["id"]; ?>">
+        <input type="hidden"  name="csrf"  value="<?php echo generateCSRF(); ?>">
+            <input type="hidden" name="dish" value="<?php echo htmlspecialchars($produit["id"]); ?>">
 
             Quantité :
             <input type="number" name="qty" value="1" min="1" max="99">
@@ -207,21 +211,22 @@ $categorie = $_GET["categorie"] ?? "";
 </section>
 
 <section>
-    <h2 textalign: center>Dessert Do Brazil</h2>
+    <h2>Dessert Do Brazil</h2>
 </section>
 
 <section class="cards desserts">
 
 <?php foreach($produits as $produit){
     if($produit["categorie"] == "Dessert Do Brazil"&&(!$search || stripos($produit["name"], $search) !== false )&&( !$categorie || $produit["categorie"] == $categorie)){ ?>
-    <div class="product-card dessert" data-price="<?php echo $produit["price"]; ?>" data-name="<?php echo $produit["name"]; ?>"; data-allergenes="<?php echo implode(',', $produit["allergenes"]); ?>">
-        <h3><?php echo $produit["name"]; ?></h3>
-        <p><b><?php echo $produit["price"]; ?> €</b></p>
-        <p><?php echo $produit["description"];?></p>
-        <img src="images/<?php echo $produit["image"]; ?>" alt="<?php echo $produit["name"]; ?>">
+    <div class="product-card dessert" data-price="<?php echo htmlspecialchars($produit["price"]); ?>" data-name="<?php echo htmlspecialchars($produit["name"]); ?>"; data-allergenes="<?php echo implode(',', $produit["allergenes"])?>">
+        <h3><?php echo htmlspecialchars($produit["name"]); ?></h3>
+        <p><b><?php echo htmlspecialchars($produit["price"]); ?> €</b></p>
+        <p><?php echo htmlspecialchars($produit["description"]); ?></p>
+        <img src="images/<?php echo basename($produit["image"]); ?>" alt="<?php echo htmlspecialchars($produit["name"]); ?>">
 
         <form method="POST" action="panier.php">
-            <input type="hidden" name="dish" value="<?php echo $produit["id"]; ?>">
+        <input type="hidden"  name="csrf"  value="<?php echo generateCSRF(); ?>">
+            <input type="hidden" name="dish" value="<?php echo htmlspecialchars($produit["id"]); ?>">
 
             Quantité :
             <input type="number" name="qty" value="1" min="1" max="99">
@@ -234,21 +239,22 @@ $categorie = $_GET["categorie"] ?? "";
 </section>
 
 <section>
-    <h2 textalign: center>Boissons Do Brazil</h2>
+    <h2>Boissons Do Brazil</h2>
 </section>
 
 <section class="cards boissons">
 
 <?php foreach($produits as $produit){
     if($produit["categorie"] == "Boisson Do Brazil"&&(!$search || stripos($produit["name"], $search) !== false )&&( !$categorie || $produit["categorie"] == $categorie)){ ?>
-    <div class="product-card boisson" data-price="<?php echo $produit["price"]; ?>" data-name="<?php echo $produit["name"]; ?>"; data-allergenes="<?php echo implode(',', $produit["allergenes"]); ?>">
-        <h3><?php echo $produit["name"]; ?></h3>
-        <p><b><?php echo $produit["price"]; ?> €</b></p>
-        <p><?php echo $produit["description"];?></p>
-        <img src="images/<?php echo $produit["image"]; ?>" alt="<?php echo $produit["name"]; ?>">
+    <div class="product-card boisson" data-price="<?php echo htmlspecialchars($produit["price"]); ?>" data-name="<?php echo htmlspecialchars($produit["name"]); ?>"; data-allergenes="<?php echo implode(',', $produit["allergenes"])?>">
+        <h3><?php echo htmlspecialchars($produit["name"]); ?></h3>
+        <p><b><?php echo htmlspecialchars($produit["price"]); ?> €</b></p>
+        <p><?php echo htmlspecialchars($produit["description"]); ?></p>
+        <img src="images/<?php echo basename($produit["image"]); ?>" alt="<?php echo htmlspecialchars($produit["name"]); ?>">
 
         <form method="POST" action="panier.php">
-            <input type="hidden" name="dish" value="<?php echo $produit["id"]; ?>">
+        <input type="hidden"  name="csrf"  value="<?php echo generateCSRF(); ?>">
+            <input type="hidden" name="dish" value="<?php echo htmlspecialchars($produit["id"]); ?>">
 
             Quantité :
             <input type="number" name="qty" value="1" min="1" max="99">
@@ -263,8 +269,8 @@ $categorie = $_GET["categorie"] ?? "";
 <footer>
     © 2026 – Copa Cabanane 🍌
     <nav>
-        <p>Contact us:
-        <a href="https://mail.google.com/mail/u/0/?hl=fr#inbox?compose=new">📧 contactcopacabanane@gmail.com</a>
+        <p>Contact :
+        <a href="mailto:contactcopacabanane@gmail.com">📧 contactcopacabanane@gmail.com</a>
         | <a href="https://www.instagram.com"> Instagram</a>
          | <a href="https://www.tiktok.com/fr/">Tiktok</a></p> 
     </nav>  

@@ -17,8 +17,7 @@ checkBlocked();?>
 
 <header class="header">
     <img src="images/logo-copa-cabanane.png" alt="Logo Copa Cabanane">
-    <img src="https://static.vecteezy.com/system/resources/previews/031/122/692/non_2x/france-and-brazil-flags-two-flags-vector.jpg" 
-    alt="Drapeaux France et Brésil" style="height: 100px; margin-left: 20px; border-radius: 5px; width: 350px;">
+    <img class="flags" src="https://static.vecteezy.com/system/resources/previews/031/122/692/non_2x/france-and-brazil-flags-two-flags-vector.jpg" alt="Drapeaux France et Brésil">
     <nav>
         <a href="index.php" title="aller à l'accueil">Accueil</a>
         <a href="produits.php" title="aller aux plats">Plats</a>
@@ -47,9 +46,9 @@ checkBlocked();?>
 </header>
 
 <div class="infos">
-    📍 Paris | 🕒 11h–23h | 📞 01 23 45 67 89   | <button onclick="toggleTheme()"> ☀️/🌙</button>
+    📍 Paris | 🕒 11h–23h | 📞 01 23 45 67 89   | <button onclick="toggleTheme()" title="changer de thème"> ☀️/🌙</button>
     <?php if(isset($_SESSION["user"])): ?>
-    <p>Bienvenue <?php echo $_SESSION["user"]["name"]; ?> 🍌</p>
+    <p>Bienvenue <?php echo htmlspecialchars($_SESSION["user"]["name"]); ?> 🍌</p>
     <?php endif; ?>
 </div>
 
@@ -95,8 +94,8 @@ checkBlocked();?>
     <p>
         De la favela à la plage, les meilleurs dans la restauration brésilienne débarquent à Paris pour vous faire voyager.<br>
         Copa Cabanane vous transporte sous les tropiques avec une cuisine
-        fraîche, colorée et conviviale comme à la maison, c'est digne d'un duel de nourriture dans les favelas. Sortez les fourchettes et degustez !<br>
-        Sur place, à emporter ou en livraison, entre amis, en familles ou solo, venez vous évader au brésil pendant ce doux repas.
+        fraîche, colorée et conviviale comme à la maison, c'est digne d'un duel de nourriture dans les favelas. Sortez les fourchettes et dégustez !<br>
+        Sur place, à emporter ou en livraison, entre amis, en famille ou solo, venez vous évader au Brésil pendant ce doux repas.
     </p>
 </section>
 
@@ -115,8 +114,8 @@ checkBlocked();?>
 <footer>
     <p>© 2026 – Copa Cabanane 🍌 | Soleil dans l’assiette </p>
     <nav>
-    <p>Contact us:
-    <a href="https://mail.google.com/mail/u/0/?hl=fr#inbox?compose=new">📧 contactcopacabanane@gmail.com</a>
+    <p>Contact :
+    <a href="mailto:contactcopacabanane@gmail.com">📧 contactcopacabanane@gmail.com</a>
     | <a href="https://www.instagram.com"> Instagram</a>
      | <a href="https://www.tiktok.com/fr/">Tiktok</a></p> 
     </nav>  
