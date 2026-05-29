@@ -1,11 +1,10 @@
 <?php
 session_start();
-
 include("fonctions.php");
-
+// vérifier si utilisateur bloqué
 checkBlocked();
 
-// sécurité
+// sécurité : si pas connecté -> redirection
 if(!isset($_SESSION["user"])){
     header("Location: connexion.php");
     exit;
@@ -34,13 +33,13 @@ foreach($orders as $o){
 }
 
 
-// sécurité
+// sécurité si commande existe ou pas
 if(!isset($order)){
     exit("Commande introuvable");
 }
 
 
-// sécurité utilisateur
+// sécurité acces seulement pour le client propriétaire de la commande
 if(
     $order["client"] != $_SESSION["user"]["login"]
 ){
@@ -59,41 +58,41 @@ if(isset($_POST["update"])){
     $newItems = [];
 $nouveauTotal = 0;
 
+// liste des ids produits valides pour sécurité
 $validIds = array_column($produits, "id");
+// on reconstruit la liste des items de la commande à partir des quantités envoyées
 foreach($_POST["qty"] as $dishId => $qty){
 
+    // on vérifie que le plat existe
     if(!in_array($dishId, $validIds)){
         continue;
     }
 
     $qty = intval($qty);
+    // on vérifie que la quantité est valide
     if($qty < 0 || $qty > 99){
         continue;
     }
 
     if($qty > 0){
-
         $newItems[] = [
             "dish" => intval($dishId),
             "qty" => $qty
         ];
 
         foreach($produits as $p){
-
             if($p["id"] == $dishId){
-
                 $nouveauTotal += $p["price"] * $qty;
             }
         }
     }
 }
 
-
     // comparer ancien / nouveau total
     $ancienTotal = $order["total"];
 
+    // mise a jour de la commande
     foreach($orders as &$o){
-
         if($o["id"] == $id){
             $o["items"] = $newItems;
             $o["total"] = $nouveauTotal;
@@ -102,9 +101,8 @@ foreach($_POST["qty"] as $dishId => $qty){
 
     saveData("json/commandes.json", $orders);
 
-    // message
     if($nouveauTotal > $ancienTotal){
-
+        // calculer la différence et rediriger vers paiement modification
         $difference = $nouveauTotal - $ancienTotal;
         $message ="⚠️ Vous devez payer ". number_format($difference, 2). " € supplémentaires";
         $_SESSION["difference"] = $difference;
@@ -133,6 +131,7 @@ foreach($_POST["qty"] as $dishId => $qty){
 </head>
 <body>
 
+<!-- haut de page -->
 <header class="header">
     <img src="images/logo-copa-cabanane.png" alt="Logo Copa Cabanane">
     <img src="https://static.vecteezy.com/system/resources/previews/031/122/692/non_2x/france-and-brazil-flags-two-flags-vector.jpg" alt="Drapeaux France et Brésil" style="height: 100px; margin-left: 20px; border-radius: 5px; width: 350px;">
@@ -145,25 +144,23 @@ foreach($_POST["qty"] as $dishId => $qty){
 
 </header>
 
-
-
 <section>
 
 <h1>✏️ Modifier commande</h1>
 
-
-
+<!-- message confirmation pour le client après modification -->
 <?php
 if(isset($message)){
     echo "<p><b>".htmlspecialchars($message)."</b></p>";
 }
 ?>
 
+<!-- formulaire de modification de la commande -->
 <form method="POST">
 <input type="hidden" name="csrf" value="<?php echo generateCSRF(); ?>">
+<!-- liste des produits avec les quantités de la commande -->
 <?php
 foreach($produits as $p){
-
     $qty = 0;
 
     // vérifier si le produit existe déjà dans la commande
@@ -185,20 +182,14 @@ foreach($produits as $p){
     Quantité :
     <input type="number" name="qty[<?php echo $p["id"]; ?>]" value="<?php echo $qty; ?>" min="0" max="99">
 </div>
-
 <br>
-
 <?php }?>
 
 <button type="submit" name="update">
     💾 Mettre à jour la commande
 </button>
-
 </form>
-
 </section>
-
-
 
 <footer>
     © 2026 – Copa Cabanane 🍌

@@ -2,6 +2,7 @@
 session_start();
 include("fonctions.php");
 
+// on vérifie les parametres nécessaires
 if(
     !isset($_GET["id"]) ||
     !isset($_GET["status"]) ||
@@ -10,14 +11,19 @@ if(
     exit("Erreur");
 }
 
+// id de la commande modifiée
 $id =intval($_GET["id"]);
 
+// statut du paiement renvoyé par la plateforme de paiement
 $status = $_GET["status"] ?? "";
 
+// montant de la modification sécurise par default à 0 pour éviter les erreurs
 $montant = $_GET["montant"] ?? 0;
 
+// on charge les commandes
 $orders = readData("json/commandes.json");
 
+// on met à jour la commande avec le nouveau paiement si accepté
 foreach($orders as &$o){
     if($o["id"] == $id){
         if($status == "accepted"){
@@ -26,8 +32,10 @@ foreach($orders as &$o){
     }
 }
 
+// on enregistre les modifications
 saveData("json/commandes.json",$orders);
 
+// on supprime la différence de paiement de la session pour éviter les erreurs si l'utilisateur modifie à nouveau sa commande
 unset($_SESSION["difference"]);
 ?>
 
