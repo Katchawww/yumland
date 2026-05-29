@@ -1,17 +1,19 @@
 <?php session_start();
 include("fonctions.php");
 
-// Sécurité : si pas connecté → redirection
+// Sécurité : si pas connecté -> redirection
 if(!isset($_SESSION["user"])){
     header("Location: connexion.php");
     exit;
 }
+//on récupère les utilisateurs
 $users = readData("json/utilisateurs.json");
 
 // Si on clique depuis admin
 if(isset($_GET["login"]) && $_SESSION["user"]["role"] == "admin"){
     $login = $_GET["login"];
 
+    //on parcourt les utilisateurs pour trouver celui à afficher
     foreach($users as $u){
         if($u["login"] == $login){
             $user = $u;
@@ -23,7 +25,7 @@ if(isset($_GET["login"]) && $_SESSION["user"]["role"] == "admin"){
     // sinon profil normal (utilisateur connecté)
     $user = $_SESSION["user"];
 }
-
+//mise à jour via formulaire de modification des données de l'utilisateur
 if(isset($_POST["name"])){
 
     $newUsers = [];
@@ -38,13 +40,14 @@ if(isset($_POST["name"])){
             $u["phone"] = $_POST["phone"];
             $u["address"] = $_POST["address"];
             
-            $_SESSION["user"] = $u; // mettre à jour session avec nouvelles données
+            // mettre à jour session avec nouvelles données
+            $_SESSION["user"] = $u; 
         }
-
+        // ajout dans le nouveau tableau d'utilisateurs
         $newUsers[] = $u;
     }
 
-    // sauvegarde
+    // validation simple des champs obligatoires
     if(
         empty($_POST["name"]) ||
         empty($_POST["surname"]) ||
@@ -73,7 +76,7 @@ if(isset($_POST["name"])){
 </head>
 <body>
 
-<!-- HEADER -->
+<!-- Haut de page -->
 <header class="header">
     <img src="images/logo-copa-cabanane.png" alt="Logo Copa Cabanane">
     <img src="https://static.vecteezy.com/system/resources/previews/031/122/692/non_2x/france-and-brazil-flags-two-flags-vector.jpg" alt="Drapeaux France et Brésil" style="height: 100px; margin-left: 20px; border-radius: 5px; width: 350px;">
@@ -87,12 +90,11 @@ if(isset($_POST["name"])){
     </nav>
 </header>
 
-<!-- PROFIL -->
+<!-- Profil de l'utilisateur-->
 <section>
     <h1>👤 Mon profil</h1>
     <p>Bienvenue <?php echo htmlspecialchars($user["name"]); ?> 🍌 </p>
 
-    <!-- INFOS UTILISATEUR -->
     <div class="card">
         <h2>📋 Informations personnelles</h2>
         <form method="POST" id="form-profil">
@@ -124,7 +126,7 @@ if(isset($_POST["name"])){
 </form>
     </div>
 
-    <!-- COMMANDES -->
+    <!-- Commandes -->
     <section>
     <h2>📦 Mes commandes</h2>
 
@@ -132,7 +134,7 @@ if(isset($_POST["name"])){
     $orders = readData("json/commandes.json");
 
     $found = false;
-
+    // on parcourt les commandes pour trouver celles du client connecté
     foreach($orders as $order){
 
         if($order["client"] == $user["login"]){
@@ -173,7 +175,7 @@ if(isset($_POST["name"])){
     ?>
 </section>
 
-    <!-- FIDÉLITÉ -->
+    <!-- Fidélité -->
     <div class="card">
         <h2>⭐ Fidélité</h2>
         <p><b>Statut :</b> <?php echo $user ["statut"]; ?></p>
@@ -182,7 +184,7 @@ if(isset($_POST["name"])){
     </div>
 </section>
 
-<!-- FOOTER -->
+<!-- bas de page -->
 <footer>
     © 2026 – Copa Cabanane 🍌
     <nav>

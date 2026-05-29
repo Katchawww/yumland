@@ -1,11 +1,13 @@
 <?php
 session_start();
 include("fonctions.php");
+// vérifier si utilisateur bloqué
 checkBlocked();
 
+//on récupère les commandes
 $orders = readData("json/commandes.json");
 
-// récupérer ID dès le début
+// récupérer ID de la commande à noter
 if(isset($_GET["id"])){
     $id = $_GET["id"];
 } else {
@@ -13,13 +15,13 @@ if(isset($_GET["id"])){
     exit;
 }
 
-
+// traiter le formulaire de notation
 if(isset($_POST["note"])){
 
     $newOrders = [];
 
     foreach($orders as $o){
-
+        //on retrouve la commande à noter et on met à jour la note et le commentaire
         if($o["id"] == $id){
             $o["note"] = $_POST["note"];
             $o["commentaire"] = $_POST["commentaire"];
@@ -27,9 +29,8 @@ if(isset($_POST["note"])){
 
         $newOrders[] = $o;
     }
-
+    // on sauvegarde les modifications
     file_put_contents("json/commandes.json", json_encode($newOrders, JSON_PRETTY_PRINT));
-
     header("Location: profil.php");
     exit;
 }
@@ -45,7 +46,7 @@ if(isset($_POST["note"])){
 </head>
 <body>
 
-<!-- HEADER -->
+<!-- Haut de page -->
 <header class="header">
     <img src="images/logo-copa-cabanane.png" alt="Logo Copa Cabanane">
     <img src="https://static.vecteezy.com/system/resources/previews/031/122/692/non_2x/france-and-brazil-flags-two-flags-vector.jpg" alt="Drapeaux France et Brésil" style="height: 100px; margin-left: 20px; border-radius: 5px; width: 350px;">
@@ -58,9 +59,10 @@ if(isset($_POST["note"])){
     </nav>
 </header>
 
+<!-- recupérer les infos de la commande à noter -->
 <?php if(isset($_GET["id"])){
     $id = $_GET["id"];
-
+    // on parcourt les commandes pour trouver celle à noter
     foreach($orders as $o){
         if($o["id"] == $id){
             $order = $o;
@@ -69,7 +71,7 @@ if(isset($_POST["note"])){
     }
 }
 
-// sécurité
+// si aucune commande trouvée avec l'ID donné, on affiche un message d'erreur
 if(!isset($order)){
     echo "Commande introuvable";
     exit;
@@ -78,7 +80,7 @@ if(!isset($order)){
 <section>
 <h2>⭐ Noter la commande #<?php echo $order["id"]; ?></h2>
 <p>Laissez une note croustillante de votre commande Copa Cabanane</p>
-
+<!-- formulaire de notation avec une sélection de 1 à 5 étoiles -->
 <form method="POST">
     <select name="note">
         <option value="1">1 ⭐</option>
@@ -88,7 +90,7 @@ if(!isset($order)){
         <option value="5">5 ⭐</option>
     </select>
     <br><br>
-
+    <!-- champ pour laisser un commentaire sur la commande -->
     <label><b>Avis :</b></label>
     <textarea name="commentaire" placeholder="Donnez votre avis..." required></textarea>
     <button type="submit">Envoyer</button>

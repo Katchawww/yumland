@@ -10,7 +10,7 @@ $vendeur = $_GET['vendeur'] ?? null;
 $status = $_GET['status'] ?? null;
 $control = $_GET['control'] ?? null;
 
-// sécurité basique
+// sécurité basique pour éviter les erreurs si on accède à cette page sans passer par CYBank
 if(!$transaction || !$montant || !$vendeur || !$status || !$control){
     die("Paramètres manquants");
 }
@@ -27,13 +27,14 @@ $control_check = md5(
     $status . "#"
 );
 
-// vérification sécurité
+// vérification antifraude
 if($control_check !== $control){
     die("❌ Erreur de sécurité : hash invalide");
 }
 
-// charger commandes
+// charger commandes existantes
 $orders = readData("json/commandes.json");
+// mise a jour de la commande correspondante si paiement accepté
 foreach($orders as &$o){
     if(
         $status === "accepted" && strpos($transaction, "CMD".$o["id"]) === 0
@@ -43,9 +44,10 @@ foreach($orders as &$o){
     }
 }
 
-// sauvegarde
+// sauvegarde des modifs
 saveData("json/commandes.json", $orders);
 if($status === "accepted"){
+    //on nettoie le panier après le paiment réussi
     unset($_SESSION["panier"]);
 }
 ?>
@@ -59,11 +61,10 @@ if($status === "accepted"){
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 </head>
 
-<!-- HEADER -->
+<!-- Haut de page -->
 <header class="header">
     <img src="images/logo-copa-cabanane.png" alt="Logo Copa Cabanane">
     <img src="https://static.vecteezy.com/system/resources/previews/031/122/692/non_2x/france-and-brazil-flags-two-flags-vector.jpg" alt="Drapeaux France et Brésil" style="height: 100px; margin-left: 20px; border-radius: 5px; width: 350px;">
-
 
     <nav>
         <a href="index.php">Accueil</a>
@@ -80,6 +81,7 @@ if($status === "accepted"){
 <?php } ?>
 </h1>
 
+<!-- Affichage des détails de la transaction pour le client -->
 <p>Transaction : <?php echo htmlspecialchars($transaction); ?></p>
 <p>Montant : <?php echo htmlspecialchars($montant); ?> €</p>
 <br>

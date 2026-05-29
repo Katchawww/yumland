@@ -1,5 +1,6 @@
 <?php session_start();
 include("fonctions.php");
+// Vérifie si utilisateur bloqué
 checkBlocked();
 
 // Sécurité sinon redirection vers connexion
@@ -7,11 +8,13 @@ if(!isset($_SESSION["user"])){
     header("Location: connexion.php");
     exit;
 }
+// Sécurité accès seulement pour les restaurateurs et les admins
 if($_SESSION["user"]["role"] != "restaurateur" && $_SESSION["user"]["role"] != "admin"){
     echo "Accès refusé";
     exit;
 }
 
+// Récupération des données de l'utilisateur connecté
 $user = $_SESSION["user"];
 ?>
 <!DOCTYPE html>
@@ -25,7 +28,7 @@ $user = $_SESSION["user"];
 </head>
 <body>
 
-<!-- HEADER -->
+<!-- Haut de page -->
 <header class="header">
     <img src="images/logo-copa-cabanane.png" alt="Logo Copa Cabanane">
     <img src="https://static.vecteezy.com/system/resources/previews/031/122/692/non_2x/france-and-brazil-flags-two-flags-vector.jpg" alt="Drapeaux France et Brésil" style="height: 100px; margin-left: 20px; border-radius: 5px; width: 350px;">
@@ -38,13 +41,12 @@ $user = $_SESSION["user"];
     </nav>
 </header>
 
-<!-- ADMIN -->
+<!-- partie restauration -->
 <section>
     <h1>Restauration</h1>
     <p>Gestion des commandes du site</p>
     <br><br>
 
-    <!-- UTILISATEURS -->
     <div class="card">
         <h2>🧾 Listes des commandes</h2>
     
@@ -54,15 +56,17 @@ $user = $_SESSION["user"];
 
 
     <?php foreach($orders as $order){ ?>
-
+        <!-- affiche les infos de la commande -->
         <?php echo "<div class='card'>";?>
         <?php echo "<p>Commande #" . $order["id"] . "</p>";?>
         <?php  echo "<p>Client : " . $order["client"] . "</p>";?>
         <?php   echo "<p>Statut : " . $order["status"] . "</p>";?>
         <?php  echo "<ul>";?>
+        <!-- affiche les produits de la commande -->
         <?php foreach($order["items"] as $item){?>
             <?php  echo "<li>Produit ID : ".$item["dish"]. "(x".$item["qty"].")</li>";?><?php } ?>
             <?php echo "</ul>";?>
+            <!-- lien pour modifier le statut de la commande -->
             <nav><a href="etatcommandes.php?id=<?php echo $order["id"]; ?>">✏️ Modifier</a></nav>
             <?php echo "</div>";?>
       <?php } ?>
@@ -71,7 +75,7 @@ $user = $_SESSION["user"];
 
 <br><br><br><br><br><br>
 
-<!-- FOOTER -->
+<!-- bas de page -->
 <footer>
     © 2026 – Copa Cabanane 🍌
 </footer>

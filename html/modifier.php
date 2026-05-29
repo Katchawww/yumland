@@ -1,23 +1,27 @@
 <?php
 session_start();
 include("fonctions.php");
+// vérifie si l'utilisateur est bloqué
 checkBlocked();
 
-// sécurité
+// sécurité vérifie si connecté
 if(!isset($_SESSION["user"])){
     header("Location: connexion.php");
     exit;
 }
+// on veux modifier un utilisateur, donc sécurité vérifie si admin
 if(!isset($_SESSION["user"]) || $_SESSION["user"]["role"] != "admin"){
     exit("Accès refusé");
 }
 
+// on récupère les utilisateurs
 $users = readData("json/utilisateurs.json");
 
-// récupérer utilisateur à modifier
+// récupérer utilisateur à modifier via login
 if(isset($_GET["login"])){
     $login = $_GET["login"];
 
+    //on parcourt les utilisateurs pour trouver celui à modifier
     foreach($users as $user){
         if($user["login"] == $login){
             $user = $user;
@@ -28,11 +32,9 @@ if(isset($_GET["login"])){
 
 // si formulaire envoyé
 if(isset($_POST["name"])){
-
     $newUsers = [];
-
     foreach($users as $user){
-
+        // si c'est l'utilisateur à modifier
         if($user["login"] == $_GET["login"]){
             // modifier les données
             $user["name"] = $_POST["name"];
@@ -40,6 +42,7 @@ if(isset($_POST["name"])){
             $user["login"] = $_POST["login"];
             $user["role"] = $_POST["role"];
             $user["statut"] = $_POST["statut"];
+            // la remise ne peut être modifiée que si le statut est VIP ou Rei de la jungle
             $user["remise"] = $user["remise"];
         }
 
@@ -48,7 +51,6 @@ if(isset($_POST["name"])){
 
     // sauvegarde
     saveData("json/utilisateurs.json", $newUsers);
-
     header("Location: admin.php");
     exit;
 }
@@ -78,6 +80,7 @@ if(isset($_POST["name"])){
 <section>
 <h2>✏️ Modifier utilisateur</h2>
 
+<!-- formulaire de modification des données de l'utilisateur-->
 <form method="POST">
 <input type="hidden" name="csrf" value="<?= generateCSRF(); ?>">
 

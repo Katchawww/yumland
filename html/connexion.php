@@ -2,28 +2,37 @@
 session_start();
 include("fonctions.php");
 
-
+// on vérifie si le formulaire a été soumis
 if(isset($_POST["login"]) && isset($_POST["password"])){
+// on charge les données des utilisateurs et des livreurs
 $users = readData("json/utilisateurs.json");
 $livreurs = readData("json/livreurs.json");
 
+// on vérifie la connexion pour les livreurs
 foreach($livreurs as $l){
     if($l["login"] == $_POST["login"] &&
        $l["password"] == $_POST["password"]){
-
+        
+        // si les identifiants sont corrects, on régénère la session de livreur
         $_SESSION["user"] = $l;
+        // redirection vers la page de livraison
         header("Location: ../livraison.php");
         exit;
     }
 }
 
+// on vérifie la connexion pour les utilisateurs
 foreach($users as $user){
 
  if($user["login"] == $_POST["login"] &&
     $user["password"] == $_POST["password"]){
+        
+    // on securise la session en régénérant l'ID de session
     session_regenerate_id(true);
 
+    // on stocke les données de l'utilisateur dans la session
     $_SESSION["user"] = $user;
+    // si admin -> admin.php, si restaurateur -> restauration.php, sinon profil.php
     if($user["role"] == "admin"){
         header("Location: ../admin.php");
         exit;
@@ -39,6 +48,7 @@ foreach($users as $user){
 }
 }
 
+// si on arrive ici, c'est que les identifiants sont incorrects
 $error = "Login incorrect";
 }
 ?>
@@ -53,7 +63,7 @@ $error = "Login incorrect";
 </head>
 <body>
 
-<!-- HEADER -->
+<!-- Haut de page -->
 <header class="header">
     <img src="images/logo-copa-cabanane.png" alt="Logo Copa Cabanane">
     <img src="https://static.vecteezy.com/system/resources/previews/031/122/692/non_2x/france-and-brazil-flags-two-flags-vector.jpg" alt="Drapeaux France et Brésil" style="height: 100px; margin-left: 20px; border-radius: 5px; width: 350px;">
@@ -67,11 +77,11 @@ $error = "Login incorrect";
     </nav>
 </header>
 
-<!-- CONTENU -->
 <section>
     <h1>🔐 Connexion</h1>
     <p>Connectez-vous à votre compte Copa Cabanane</p>
     <br><br>
+    <!-- Formulaire de connexion -->
     <form class="form" method="POST" action="connexion.php">
     <input type="hidden" name="csrf" value="<?php echo generateCSRF(); ?>">
         <label>Email</label>
@@ -93,7 +103,7 @@ $error = "Login incorrect";
 </section>
 <br><br><br><br><br>
 
-<!-- FOOTER -->
+<!-- bas de page -->
 <footer>
     © 2026 – Copa Cabanane 🍌
     <nav>
