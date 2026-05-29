@@ -1,29 +1,32 @@
 <?php
 session_start();
 include("fonctions.php");
+// vérifier si utilisateur bloqué
 checkBlocked();
 
-// sécurité
+// sécurité si pas connecté -> redirection
 if(!isset($_SESSION["user"])){
     header("Location: connexion.php");
     exit;
 }
 
+// sécurité : accès seulement pour restaurateur et admin
 if($_SESSION["user"]["role"] != "restaurateur" && $_SESSION["user"]["role"] != "admin"){
     exit("Accès refusé");
 }
-
+//chargement données
 $orders = readData("json/commandes.json");
 $livreurs = readData("json/livreurs.json");
 
-// récupérer commande
+// récupérer commande avec id dans l'url
 if(!isset($_GET["id"])){
     echo "Aucune commande sélectionnée";
     exit;
 }
-
+// convertir id en entier pour éviter les injections
 $id = intval($_GET["id"]);
 
+// trouver la commande correspondante à l'id
 foreach($orders as $o){
     if($o["id"] == $id){
         $order = $o;
@@ -31,35 +34,33 @@ foreach($orders as $o){
     }
 }
 
-// sécurité
+// si pas de commande trouvée avec cet id on arrête le script
 if(!isset($order)){
     echo "Commande introuvable";
     exit;
 }
 
-// traitement formulaire
+// traitement formulaire avec création d'un nouveau tableau de commandes avec les modifications
 if(isset($_POST["status"])){
-
     $newOrders = [];
-
     foreach($orders as $o){
-
+        //mise a jour des données de la commande modifiée
         if($o["id"] == $id){
             $o["status"] = $_POST["status"];
             $o["livreur"] = $_POST["livreur"];
         }
-
         $newOrders[] = $o;
     }
-
+    // validation : si status en livraison, un livreur doit être choisi
     if($_POST["status"] == "en livraison" && $_POST["livreur"] == "aucun" ){
         die("Choisissez un livreur");
     }
+    // validation : le livreur ne peut être attribué que si la commande est prête à être livrée
     if ($_POST["status"] != "prete" && $_POST["livreur"] != "aucun"
     ){
         die("Le livreur ne peut être attribué que si la commande est prete à être livrée");
     }
-
+    // sauvegarde des modifications
     saveData("json/commandes.json", $newOrders);
     header("Location: restauration.php");
     exit;
@@ -88,7 +89,7 @@ if(isset($_POST["status"])){
 </header>
 <section>
 <h2>✏️ Modifier commandes</h2>
-
+<!-- formulaire de modification du statut de la commande et du livreur assigné -->
 <form method="POST">
 <input type="hidden" name="csrf" value="<?= generateCSRF(); ?>">
 
@@ -104,7 +105,7 @@ if(isset($_POST["status"])){
     <label><b><p>Attribuer à un livreur :</p></b></label>
     <select name="livreur">
     <option value="aucun">aucun</option>
-
+    <!-- parcourir les livreurs pour afficher les options du select -->
     <?php foreach($livreurs as $l){ ?>
         <option value="<?php echo htmlspecialchars($l["name"]); ?>"
             <?php if(isset($order["livreur"]) && $order["livreur"] == $l["login"]) echo "selected"; ?>>

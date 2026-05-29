@@ -1,7 +1,10 @@
 <?php
 session_start();
 include("fonctions.php");
+
+// Vérifie si l'utilisateur connecté est bloqué ou non
 checkBlocked();?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -11,10 +14,9 @@ checkBlocked();?>
     <link rel="icon" type="image/jpg" href="images/favicon.jpg">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 </head>
-
-
 <body>
 
+<!-- BANIERRE PRINCIPALE -->
 <header class="header">
     <img src="images/logo-copa-cabanane.png" alt="Logo Copa Cabanane">
     <img class="flags" src="https://static.vecteezy.com/system/resources/previews/031/122/692/non_2x/france-and-brazil-flags-two-flags-vector.jpg" alt="Drapeaux France et Brésil">
@@ -22,23 +24,27 @@ checkBlocked();?>
         <a href="index.php" title="aller à l'accueil">Accueil</a>
         <a href="produits.php" title="aller aux plats">Plats</a>
         <?php if(isset($_SESSION["user"])): ?>
-            <!-- UTILISATEUR CONNECTÉ -->
+<!-- choix selon le role de l'utilisateur connecté -->
             <?php if($_SESSION["user"]["role"] == "livreur"): ?>
+                <!-- Accès espace livreur -->
                 <a href="livraison.php">Livraisons</a>
             <?php endif; ?>
             <?php if($_SESSION["user"]["role"] == "admin"): ?>
+                <!-- Accès administration -->
                 <a href="admin.php">Admin</a>
             <?php endif; ?>
             <?php if($_SESSION["user"]["role"] == "restaurateur"): ?>
+                <!-- Accès gestion commandes -->
                 <a href="restauration.php">Restauration</a>
             <?php endif; ?>
             <?php if($_SESSION["user"]["role"] == "client"): ?>
+                <!-- Accès client -->
                 <a href="profil.php">Profil</a>
                 <a href="panier.php">Panier</a>
             <?php endif; ?>
             <a href="deconnexion.php">Déconnexion</a>
         <?php else: ?>
-            <!-- UTILISATEUR NON CONNECTÉ -->
+<!-- navigation visiteur -->
             <a href="connexion.php">Connexion</a>
             <a href="inscription.php">Inscription</a>
         <?php endif; ?>
@@ -52,18 +58,19 @@ checkBlocked();?>
     <?php endif; ?>
 </div>
 
-
+<!-- Section principale -->
 <section class="hero">
     <h1>Bem-Vindo à Copa Cabanane</h1>
     <p>Le restaurant tropical qui met la banane 🍌</p>
 
     <form method="GET" action="produits.php">
+        <!-- Barre de recherche des plats -->
         <input type="text" name="search" placeholder="Rechercher un plat...">
     </form>
 </section>
 
 
-
+<!-- Mise en avant des plats populaires -->
 <section>
     <h2>🔥 Plats populaires</h2>
 <nav>
@@ -87,8 +94,7 @@ checkBlocked();?>
 </section>
 
 
-
-
+<!-- Présentation du concept du restaurant -->
 <section class="concept">
     <h2>Notre concept</h2>
     <p>
@@ -99,6 +105,7 @@ checkBlocked();?>
     </p>
 </section>
 
+<!-- Avis clients -->
 <section>
     <h2>💬 Avis clients</h2>
 
@@ -110,7 +117,7 @@ checkBlocked();?>
 </section>
 
 
-
+<!-- Bas -->
 <footer>
     <p>© 2026 – Copa Cabanane 🍌 | Soleil dans l’assiette </p>
     <nav>
