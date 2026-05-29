@@ -1,3 +1,4 @@
+/* FOND */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -6,7 +7,7 @@ body {
     background-size: 1000px;
 }
 
-/* HEADER */
+/* BARRE HAUT */
 .header {
     background-color: #1E1E1E;
     padding: 10px 25px;
@@ -17,6 +18,13 @@ body {
 
 .header img {
     height: 110px;
+}
+
+.flags{
+    height:100px;
+    width:350px;
+    margin-left:20px;
+    border-radius:5px;
 }
 
 nav a {
@@ -40,6 +48,8 @@ nav a:hover {
     font-weight: bold;
 }
 
+
+/* CADRE PRINCIPAL */
 .hero {
     background: linear-gradient(#222, #111);
     text-align: center;
@@ -60,6 +70,7 @@ nav a:hover {
     max-width: 90%;
 }
 
+/* SECTIONS */
 section {
     max-width: 1000px;
     margin: auto;
@@ -73,6 +84,7 @@ h2 {
     color: #FFCC00;
 }
 
+/* CADRES CARTES */
 .cards {
     display: flex;
     gap: 20px;
@@ -94,6 +106,7 @@ h2 {
     transform: scale(1.05);
 }
 
+/* CONCEPT */
 .concept {
     background-color: #000000;
     border-radius: 15px;
@@ -101,6 +114,7 @@ h2 {
     color: white;
 }
 
+/* BAS */
 footer {
     background-color: #1E1E1E;
     text-align: center;
@@ -109,8 +123,7 @@ footer {
     color: white;
 }
 
-
-
+/* BARRE DE RECHERCHE */
 input[type="text"] {
     padding: 12px;
     width: 250px;
@@ -151,6 +164,7 @@ input[type="text"] {
     font-size: 16px;
 }
 
+/* TABLEAU */
 table {
     border-collapse: collapse;
 }
@@ -165,6 +179,7 @@ td, th {
 }
 
 
+/* CADRES PRODUITS */
 .products {
     display: flex;
     gap: 20px;
@@ -202,4 +217,29 @@ h1, h2, h3 {
 
 p {
     color: white;
+}
+
+
+/* ASPECT ERREUR */
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+.password-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.password-container button {
+    padding: 8px;
+    cursor: pointer;
+}
+
+#password-counter {
+    font-size: 13px;
+    color: gray;
 }

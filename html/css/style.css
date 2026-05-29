@@ -1,3 +1,4 @@
+/* FOND */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -6,7 +7,7 @@ body {
     background-size: 1000px;
 }
 
-/* HEADER */
+/* BARRE HAUT */
 .header {
     background-color: #FFCC00;
     padding: 10px 25px;
@@ -17,6 +18,13 @@ body {
 
 .header img {
     height: 110px;
+}
+
+.flags{
+    height:100px;
+    width:350px;
+    margin-left:20px;
+    border-radius:5px;
 }
 
 nav a {
@@ -41,7 +49,7 @@ nav a:hover {
 }
 
 
-/* HERO */
+/* CADRE PRINCIPAL */
 .hero {
     background: linear-gradient(#FFE066, #FFF8DC);
     text-align: center;
@@ -75,7 +83,7 @@ h2 {
     color: #5D4037;
 }
 
-/* CARTES */
+/* CADRES CARTES */
 .cards {
     display: flex;
     gap: 20px;
@@ -104,7 +112,7 @@ h2 {
     text-align: center;
 }
 
-/* FOOTER */
+/* BAS */
 footer {
     background-color: #FFCC00;
     text-align: center;
@@ -112,18 +120,12 @@ footer {
     margin-top: 40px;
 }
 
-
-
-
-
-
-
-
 /* BARRE DE RECHERCHE */
 input[type="text"] {
     padding: 12px;
     width: 250px;
     margin-top: 15px;
+    color: #FFCC00;
 }
 
 /* FILTRES */
@@ -150,6 +152,7 @@ input[type="text"] {
     width: 95%;
     padding: 10px;
     margin: 8px 0 15px 0;
+    color: #FFCC00;
 }
 
 .form button {
@@ -159,7 +162,7 @@ input[type="text"] {
 }
 
 
-
+/* TABLEAU */
 table {
     border-collapse: collapse;
 }
@@ -173,12 +176,7 @@ td, th {
     border: 1px solid #ddd;
 }
 
-
-
-
-
-
-
+/* CADRES PRODUITS */
 .products {
     display: flex;
     gap: 20px;
@@ -208,4 +206,29 @@ td, th {
 .product-card:hover img {
     opacity: 1;
     transform: scale(1);
+}
+
+
+/* ASPECT ERREUR */
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+.password-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.password-container button {
+    padding: 8px;
+    cursor: pointer;
+}
+
+#password-counter {
+    font-size: 13px;
+    color: gray;
 }
