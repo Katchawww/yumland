@@ -1,11 +1,13 @@
 <?php session_start();
 include("fonctions.php");
 
+// on traite le formulaire d'inscription
 if(isset($_POST["login"]) && isset($_POST["password"]) && isset($_POST["name"])){
 
+    // on charge les utilisateurs existants
     $users = readData("json/utilisateurs.json");
 
-
+    // on crée un nouvel utilisateur avec les données du formulaire
     $newUser = [
         "id" => count($users)+1,
         "login" => $_POST["login"],
@@ -16,12 +18,15 @@ if(isset($_POST["login"]) && isset($_POST["password"]) && isset($_POST["name"]))
         "phone" => $_POST["phone"],
         "address" => $_POST["address"]
     ];
+    // on ajoute le nouvel utilisateur à la liste des utilisateurs
     $users[] = $newUser;
 
+    // nettoyage et validation des données
     $login = trim($_POST["login"]);
     $name = htmlspecialchars(trim($_POST["name"]));
     $surname = htmlspecialchars(trim($_POST["surname"]));
 
+    // on verifie si email valide et si téléphone valide
     if(!filter_var($login, FILTER_VALIDATE_EMAIL)){
         die("Email invalide");
     }
@@ -30,15 +35,13 @@ if(isset($_POST["login"]) && isset($_POST["password"]) && isset($_POST["name"]))
         die("Téléphone invalide");
     }
 
-    foreach($users as $u){
-        if($u["login"] == $login){
-            die("Compte déjà existant");
-        }
-    }
 
+    // Sauvegarde des données dans JSON
     saveData("json/utilisateurs.json", $users);
+    // Suppression du token CSRF de la session
     unset($_SESSION['csrf']);
 
+    // on redirige vers la page de connexion après inscription
     header("Location: connexion.php");
     exit;
 }
@@ -53,7 +56,7 @@ if(isset($_POST["login"]) && isset($_POST["password"]) && isset($_POST["name"]))
 </head>
 <body>
 
-<!-- HEADER -->
+<!-- Haut de page -->
 <header class="header">
     <img src="images/logo-copa-cabanane.png" alt="Logo Copa Cabanane">
     <img src="https://static.vecteezy.com/system/resources/previews/031/122/692/non_2x/france-and-brazil-flags-two-flags-vector.jpg" alt="Drapeaux France et Brésil" style="height: 100px; margin-left: 20px; border-radius: 5px; width: 350px;">
@@ -67,11 +70,10 @@ if(isset($_POST["login"]) && isset($_POST["password"]) && isset($_POST["name"]))
     </nav>
 </header>
 
-<!-- CONTENU -->
 <section>
     <h1>📝 Inscription</h1>
     <p>Créez votre compte pour commander plus rapidement</p>
-
+    <!-- Formulaire d'inscription -->
     <form class="form" method="POST" action="inscription.php" id="formulaire-inscription">
         <input type="hidden" name="csrf" value="<?php echo generateCSRF(); ?>">
         <label>Nom</label>
@@ -94,8 +96,12 @@ if(isset($_POST["login"]) && isset($_POST["password"]) && isset($_POST["name"]))
         <label>Mot de passe</label>
         <div class="password-container">
             <input type="password" placeholder="Mot de passe" name="password" id="password" maxlength="20" required>
+
+        <!-- Bouton pour afficher/masquer le mot de passe -->
         <button type="button" onclick="togglePassword()">👁️</button>
         </div>
+
+        <!-- Compteur de caractères pour le mot de passe -->
         <p id="password-counter">0/20 caractères</p>
         <p class="error" id="password-error"></p>
 
@@ -107,7 +113,7 @@ if(isset($_POST["login"]) && isset($_POST["password"]) && isset($_POST["name"]))
     </form>
 </section>
 
-<!-- FOOTER -->
+<!-- bas de page -->
 <footer>
     © 2026 – Copa Cabanane 🍌
     <nav>

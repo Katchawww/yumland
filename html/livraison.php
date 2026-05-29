@@ -1,14 +1,14 @@
 <?php
 session_start();
 include("fonctions.php");
+// vérifier si utilisateur bloqué
 checkBlocked();
 
-// sécurité
+// sécurité si pas connecté -> redirection
 if(!isset($_SESSION["user"])){
     header("Location: connexion.php");
     exit;
 }
-
 $user = $_SESSION["user"];
 
 // vérifier que c'est un livreur
@@ -32,7 +32,7 @@ $produits = readData("json/plats.json");
 </head>
 <body>
 
-<!-- HEADER -->
+<!-- Haut de page -->
 <header class="header">
     <img src="images/logo-copa-cabanane.png" alt="Logo Copa Cabanane">
     <img src="https://static.vecteezy.com/system/resources/previews/031/122/692/non_2x/france-and-brazil-flags-two-flags-vector.jpg" alt="Drapeaux France et Brésil" style="height: 100px; margin-left: 20px; border-radius: 5px; width: 350px;">
@@ -47,17 +47,16 @@ $produits = readData("json/plats.json");
 
 <section>
 <h1>🚚 Espace Livreur</h1>
-
+<!-- affiche les commandes associées au livreur connecté -->
 <?php foreach($orders as $order){ ?>
-
     <?php if($order["livreur"] == $user["login"]){ ?>
-
         <div class="card">
             <p><b>Commande #<?php echo $order["id"]; ?></b></p>
             <p><b>Client :</b> <?php echo $order["client"]; ?></p>
             <p><b>Statut :</b> <?php echo $order["status"]; ?></p>
 
             <ul>
+                <!-- affiche les produits de la commande -->
                 <?php foreach($order["items"] as $item){ ?>
                     <?php
                         $nomProduit = "Inconnu";
@@ -68,12 +67,12 @@ $produits = readData("json/plats.json");
                             }
                         }
                         ?>
-
                 <li><?php echo $nomProduit; ?> (x<?php echo $item["qty"]; ?>)</li>
                 <?php } ?>
             </ul>
 
             <?php
+                // trouver les infos du client de la commande
                 $clientInfo = null;
 
                 foreach($clients as $client){
@@ -104,7 +103,7 @@ $produits = readData("json/plats.json");
 </section>
 <br><br>
 
-<!-- FOOTER -->
+<!-- bas de page -->
 <footer>
     © 2026 – Copa Cabanane 🍌
 </footer>

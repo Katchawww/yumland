@@ -1,40 +1,50 @@
 <?php
 session_start();
 include("fonctions.php");
+// Vérifie si l'utilisateur est bloqué
 checkBlocked();
 
+// Sécurité l'utilisateur doit etre connecté obligatoirement
 if(!isset($_SESSION["user"])){
     header("Location: connexion.php");
     exit;
 }
 
+// On récupère les produits
 $produits = readData("json/plats.json");
 
+// Créer panier dans session si y'en a pas encore
 if(!isset($_SESSION["panier"])){
     $_SESSION["panier"] = [];
 }
 
-// ajouter produit
+// ajouter produits au panier
 if(isset($_POST["dish"])){
 
     $_SESSION["panier"][] = [
         "dish" => intval($_POST["dish"]),
         "qty" => intval($_POST["qty"]),
     ];
+    // Suppression token CSRF après utilisation
     unset($_SESSION['csrf']);
 
 }
 
-// supprimer produit
+// supprimer produit du panier
 if(isset($_GET["remove"])){
 
+    // quel produit supprimer
     $index = intval($_GET["remove"]);
 
+    // On regarde si le produit existe dans le panier avant de le supprimer
     if(isset($_SESSION["panier"][$index])){
+
+        // On supprime le produit du panier
         unset($_SESSION["panier"][$index]);
     }
 }
 
+// On récupère le panier à afficher
 $panier = $_SESSION["panier"];
 ?>
 <!DOCTYPE html>
@@ -48,7 +58,7 @@ $panier = $_SESSION["panier"];
 </head>
 <body>
 
-<!-- HEADER -->
+<!-- Haut de page -->
 <header class="header">
     <img src="images/logo-copa-cabanane.png" alt="Logo Copa Cabanane">
     <img class="flags" src="https://static.vecteezy.com/system/resources/previews/031/122/692/non_2x/france-and-brazil-flags-two-flags-vector.jpg" alt="Drapeaux France et Brésil">
@@ -60,14 +70,18 @@ $panier = $_SESSION["panier"];
         <a href="deconnexion.php">Déconnexion</a>
     </nav>
 </header>
+
+<!-- Section avec elements du panier -->
 <section class="cards">
 <div>
 <h1>🛒 Mon panier</h1>
 </div>
 
+<!-- On vérifie si le panier est vide -->
 <?php if(empty($panier)){ ?>
     <p>Panier vide</p>
 <?php } else { ?>
+<!-- On fait un tableau pour afficher les elements du panier -->
 <table cellpadding="10">
 <tr>
     <th>Produit</th>
@@ -78,10 +92,14 @@ $panier = $_SESSION["panier"];
 </tr>
 
 <?php
+// on initialise le total à 0
 $totalGeneral = 0;
 $nom = "Produit inconnu";
 $prix = 0;
+
+// on parcours les elements du panier
 foreach($panier as $index => $item){
+    //on regarde les elements associés au produit du panier
     foreach($produits as $p){
         if($p["id"] == $item["dish"]){
             $nom = $p["name"];
@@ -89,7 +107,9 @@ foreach($panier as $index => $item){
         }
     }
 
+    // on calcule le total pour ce produit
     $total = $prix * $item["qty"];
+    // ajout au total général
     $totalGeneral += $total;
 ?>
 
@@ -121,7 +141,8 @@ foreach($panier as $index => $item){
 <?php } ?>
 </section>
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-<!-- FOOTER -->
+
+<!-- bas de page -->
 <footer>
     © 2026 – Copa Cabanane 🍌
     <nav>

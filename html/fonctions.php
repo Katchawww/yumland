@@ -15,25 +15,23 @@ function saveData($file, $data){
 
 
 function checkBlocked(){
+    if(!isset($_SESSION["user"])) return;
+    $users = readData("json/utilisateurs.json");
+    foreach($users as $u){
+        if($u["login"] === $_SESSION["user"]["login"]){
+            if(!empty($u["blocked"])){
 
-$users = readData("json/utilisateurs.json");
-foreach($users as $u){
+                $_SESSION = [];
+                session_destroy();
 
-    if(
-        isset($_SESSION["user"]) && isset($u["login"]) && $u["login"] == $_SESSION["user"]["login"]
-    ){
-
-        if(
-            isset($u["blocked"]) && $u["blocked"]
-        ){
-            $_SESSION = [];
-            session_destroy();
-            header("Location: connexion.php");
-            exit;
+                header("Location: connexion.php");
+                exit;
+            }
+            break;
         }
     }
 }
-}
+
 
 function generateCSRF(){
 
