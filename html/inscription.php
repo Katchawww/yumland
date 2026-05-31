@@ -53,6 +53,7 @@ if(isset($_POST["login"]) && isset($_POST["password"]) && isset($_POST["name"]))
     <title>Inscription – Copa Cabanane 🍌</title>
     <link id="theme-style" rel="stylesheet" href="css/style.css">
     <link rel="icon" type="image/jpg" href="images/favicon.jpg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 

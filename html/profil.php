@@ -70,9 +70,9 @@ if(isset($_POST["name"])){
 <head>
     <meta charset="UTF-8">
     <title>Profil – Copa Cabanane 🍌</title>
-
     <link rel="icon" type="image/jpg" href="images/favicon.jpg">
     <link id="theme-style" rel="stylesheet" href="css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
@@ -179,8 +179,7 @@ if(isset($_POST["name"])){
     <div class="card">
         <h2>⭐ Fidélité</h2>
         <p><b>Statut :</b> <?php echo $user ["statut"]; ?></p>
-        <p>Points cumulés : <b>120</b></p>
-        <p>🎁 Un dessert offert à 150 points</p>
+        <p><b>Remise :</b> <?php echo $user ["remise"]; ?></p>
     </div>
 </section>
 

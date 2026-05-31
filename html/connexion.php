@@ -24,8 +24,11 @@ foreach($livreurs as $l){
 // on vérifie la connexion pour les utilisateurs
 foreach($users as $user){
 
- if($user["login"] == $_POST["login"] &&
-    $user["password"] == $_POST["password"]){
+ if($user["login"] == $_POST["login"] && $user["password"] == $_POST["password"]){
+
+    if(isset($user["blocked"]) && $user["blocked"] == 1){
+        break;
+    }
         
     // on securise la session en régénérant l'ID de session
     session_regenerate_id(true);
@@ -49,7 +52,7 @@ foreach($users as $user){
 }
 
 // si on arrive ici, c'est que les identifiants sont incorrects
-$error = "Login incorrect";
+$error = "Login incorrect ou compte bloqué";
 }
 ?>
 <!DOCTYPE html>
@@ -57,9 +60,9 @@ $error = "Login incorrect";
 <head>
     <meta charset="UTF-8">
     <title>Connexion – Copa Cabanane 🍌</title>
-
     <link rel="icon" type="image/jpg" href="images/favicon.jpg">
     <link id="theme-style" rel="stylesheet" href="css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 

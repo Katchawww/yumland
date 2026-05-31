@@ -3,6 +3,7 @@
 include("fonctions.php");
 // charger utilisateurs
 $users = readData("json/utilisateurs.json");
+$orders = readData("json/commandes.json");
 // sécurité vérifie si admin
 if($_SESSION["user"]["role"] != "admin"){
     exit("Accès refusé");
@@ -28,5 +29,18 @@ foreach($users as $u){
     $newUsers[] = $u;
 }
 
+foreach($users as &$u){
+    if($u["login"] == $login){
+        $u["blocked"] = 1;
+    }
+}
+
+foreach($orders as &$order){
+    if($order["client"] == $login){
+        $order["status"] = "annulee";
+    }
+}
+
 saveData( "json/utilisateurs.json", $newUsers);
+saveData("json/commandes.json", $orders);
 echo $status;

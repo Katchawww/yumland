@@ -12,6 +12,7 @@ if(!isset($_SESSION["user"])){
 
 // On récupère les produits
 $produits = readData("json/plats.json");
+$menus = readData("json/menus.json");
 
 // Créer panier dans session si y'en a pas encore
 if(!isset($_SESSION["panier"])){
@@ -55,6 +56,7 @@ $panier = $_SESSION["panier"];
     <link id="theme-style" rel="stylesheet" href="css/style.css">
     <link rel="icon" type="image/jpg" href="images/favicon.jpg">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
@@ -106,6 +108,12 @@ foreach($panier as $index => $item){
             $prix = $p["price"];
         }
     }
+    foreach($menus as $m){
+        if($m["id"] == $item["dish"]){
+            $nom = $m["name"];
+            $prix = $m["price"];
+        }
+    }
 
     // on calcule le total pour ce produit
     $total = $prix * $item["qty"];
@@ -124,10 +132,24 @@ foreach($panier as $index => $item){
 </tr>
 
 <?php } ?>
-
 </table>
-
-<h3>Total : <?php echo $totalGeneral; ?> €</h3>
+<?php
+$remise = $_SESSION["user"]["remise"] ?? "aucun";
+$montantRemise = 0;
+if($remise == "5%"){
+    $montantRemise = $totalGeneral * 0.05;
+}
+elseif($remise == "10%"){
+    $montantRemise = $totalGeneral * 0.10;
+}
+$totalFinal = $totalGeneral - $montantRemise;
+?>
+<h3>Sous-total : <?php echo number_format($totalGeneral, 2); ?> €</h3>
+<?php if($montantRemise > 0){ ?>
+<h3>Remise fidélité : -<?php echo number_format($montantRemise, 2); ?> €</h3>
+<?php } ?>
+<h3>Total à payer après remise : <?php echo number_format($totalFinal, 2); ?> €</h3>
+</table>
 
 <form method="POST" action="valider.php">
     <input type="hidden"  name="csrf"  value="<?php echo generateCSRF(); ?>">

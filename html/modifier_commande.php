@@ -21,6 +21,7 @@ $id = intval($_GET["id"]);
 // charger données
 $orders = readData("json/commandes.json");
 $produits = readData("json/plats.json");
+$menus = readData("json/menus.json");
 
 
 // récupérer commande
@@ -59,7 +60,7 @@ if(isset($_POST["update"])){
 $nouveauTotal = 0;
 
 // liste des ids produits valides pour sécurité
-$validIds = array_column($produits, "id");
+$validIds = array_merge( array_column($produits, "id"), array_column($menus, "id") );
 // on reconstruit la liste des items de la commande à partir des quantités envoyées
 foreach($_POST["qty"] as $dishId => $qty){
 
@@ -80,12 +81,32 @@ foreach($_POST["qty"] as $dishId => $qty){
             "qty" => $qty
         ];
 
+        $found = false;
+
         foreach($produits as $p){
             if($p["id"] == $dishId){
                 $nouveauTotal += $p["price"] * $qty;
+                $found = true;
+                break;
+            }
+        }
+        if(!$found){
+            foreach($menus as $m){
+                if($m["id"] == $dishId){
+                    $nouveauTotal += $m["price"] * $qty;
+                    break;
+                }
             }
         }
     }
+}
+
+$remise = $_SESSION["user"]["remise"] ?? "aucun";
+if($remise == "5%"){
+    $nouveauTotal *= 0.95;
+}
+elseif($remise == "10%"){
+    $nouveauTotal *= 0.90;
 }
 
     // comparer ancien / nouveau total
@@ -128,6 +149,7 @@ foreach($_POST["qty"] as $dishId => $qty){
     <link id="theme-style" rel="stylesheet" href="css/style.css">
     <link rel="icon" type="image/jpg" href="images/favicon.jpg">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
@@ -160,19 +182,16 @@ if(isset($message)){
 <input type="hidden" name="csrf" value="<?php echo generateCSRF(); ?>">
 <!-- liste des produits avec les quantités de la commande -->
 <?php
-foreach($produits as $p){
-    $qty = 0;
+foreach(array_merge($produits, $menus) as $p){
+        $qty = 0;
 
     // vérifier si le produit existe déjà dans la commande
     foreach($order["items"] as $item){
-
         if($item["dish"] == $p["id"]){
-
             $qty = $item["qty"];
         }
     }
 ?>
-
 <div class="card">
     <h3><?php echo $p["name"]; ?></h3>
     <p><?php echo $p["price"]; ?> €</p>

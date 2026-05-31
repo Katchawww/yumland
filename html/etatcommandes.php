@@ -56,7 +56,7 @@ if(isset($_POST["status"])){
         die("Choisissez un livreur");
     }
     // validation : le livreur ne peut être attribué que si la commande est prête à être livrée
-    if ($_POST["status"] != "prete" && $_POST["livreur"] != "aucun"
+    if ($_POST["status"] != "prete" && $_POST["status"] != "en livraison" && $_POST["livreur"] != "aucun"
     ){
         die("Le livreur ne peut être attribué que si la commande est prete à être livrée");
     }
@@ -75,6 +75,7 @@ if(isset($_POST["status"])){
     <link id="theme-style" rel="stylesheet" href="css/style.css">
     <link rel="icon" type="image/jpg" href="images/favicon.jpg">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <header class="header">

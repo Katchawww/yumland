@@ -27,6 +27,7 @@ $date = $_POST["date"];
 
 // on charge les produits pour calculer le total de la commande
 $produits = readData("json/plats.json");
+$menus = readData("json/menus.json");
 $total = 0;
 
 foreach($panier as $item){
@@ -35,7 +36,23 @@ foreach($panier as $item){
             $total += $p["price"] * $item["qty"];
         }
     }
+    foreach($menus as $m){
+        if($m["id"] == $item["dish"]){
+            $total += $m["price"] * $item["qty"];
+        }
+    }
 }
+
+// appliquer la remise fidélité
+$remise = $_SESSION["user"]["remise"] ?? "aucun";
+$montantRemise = 0;
+if($remise == "5%"){
+    $montantRemise = $total * 0.05;
+}
+elseif($remise == "10%"){
+    $montantRemise = $total * 0.10;
+}
+$total = $total - $montantRemise;
 
 // créer commande avec statut "en_attente_paiement" et livreur "aucun"
 $newOrder = [

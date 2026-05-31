@@ -19,6 +19,7 @@ $categorie = $_GET["categorie"] ?? "";
     <link id="theme-style" rel="stylesheet" href="css/style.css">
     <link rel="icon" type="image/jpg" href="images/favicon.jpg">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
@@ -147,7 +148,7 @@ $categorie = $_GET["categorie"] ?? "";
         <!-- Formulaire panier -->
         <form method="POST" action="panier.php">
         <input type="hidden"  name="csrf"  value="<?php echo generateCSRF(); ?>">
-            <input type="hidden" name="dish" value="<?php echo htmlspecialchars($menu["id"]); ?>>">
+            <input type="hidden" name="dish" value="<?php echo htmlspecialchars($menu["id"]); ?>">
 
             Quantité :
             <input type="number" name="qty" value="1" min="1" max="99">
