@@ -165,8 +165,152 @@ Le projet intègre plusieurs mécanismes de sécurité :
 
 ---
 
-#  Installation
+#  Choix techniques
 
+## Utilisation de PHP
+
+Le projet a été développé en PHP car il permet de créer facilement des applications web dynamiques côté serveur.
+
+PHP a été utilisé pour :
+
+- gérer les sessions utilisateurs ;
+- traiter les formulaires ;
+- gérer les commandes ;
+- contrôler les accès selon les rôles ;
+- communiquer avec la plateforme de paiement CyBank.
+
+---
+
+## Utilisation de fichiers JSON
+
+Les données sont stockées dans des fichiers JSON plutôt que dans une base de données.
+
+Ce choix a été fait pour :
+
+- simplifier le développement ;
+- faciliter la lecture des données ;
+- éviter l'installation et la configuration d'un serveur SQL ;
+- permettre une sauvegarde rapide des informations.
+
+Les fichiers JSON utilisés sont :
+
+- utilisateurs.json
+- livreurs.json
+- plats.json
+- menus.json
+- commandes.json
+
+---
+
+## Gestion des rôles
+
+Le système repose sur plusieurs rôles :
+
+### Client
+
+Peut :
+
+- consulter les produits ;
+- passer commande ;
+- modifier certaines commandes ;
+- suivre ses commandes.
+
+### Livreur
+
+Peut :
+
+- consulter les livraisons attribuées ;
+- mettre à jour l'état des commandes.
+
+### Restaurateur
+
+Peut :
+
+- gérer les commandes ;
+- préparer les commandes ;
+- attribuer les livreurs.
+
+### Administrateur
+
+Dispose des droits complets :
+
+- gestion des utilisateurs ;
+- blocage et déblocage des comptes ;
+- supervision générale du site.
+
+---
+
+## Sécurité
+
+Plusieurs mécanismes ont été mis en place :
+
+### Protection CSRF
+
+Chaque formulaire contient un jeton CSRF permettant de vérifier l'origine de la requête.
+
+### Contrôle des accès
+
+Certaines pages ne sont accessibles qu'aux utilisateurs authentifiés.
+
+Des vérifications sont effectuées avant chaque action sensible.
+
+### Validation des données
+
+Les données sont contrôlées :
+
+- côté client avec JavaScript ;
+- côté serveur avec PHP.
+
+### Protection XSS
+
+Les données affichées sont sécurisées grâce à :
+
+```php
+htmlspecialchars(...)
+```
+
+afin d'éviter l'injection de code HTML ou JavaScript.
+
+---
+
+## Gestion du thème
+
+Le site dispose :
+
+- d'un thème clair ;
+- d'un thème sombre.
+
+Le choix de l'utilisateur est enregistré dans un cookie afin d'être conservé lors des prochaines visites.
+
+---
+
+## Adaptation
+
+Le site est compatible :
+
+- ordinateur ;
+- tablette ;
+- smartphone.
+
+
+## Architecture générale
+
+Le projet suit une architecture simple :
+
+- Front-end :
+  - HTML
+  - CSS
+  - JavaScript
+
+- Back-end :
+  - PHP
+
+- Stockage :
+  - JSON
+
+Cette organisation facilite la maintenance et la compréhension du code.
+
+#  Installation
 1. Cloner le projet
 
 ```bash
@@ -179,10 +323,11 @@ git clone https://github.com/votre-compte/copa-cabanane.git
 - WAMP
 - MAMP
 
-3. Démarrer Apache
 
-4. Accéder au projet :
-
+3. Accéder au projet :
+```text
+   php -S localhost:1234
+```
 ```text
 http://localhost:1234/index.php
 ```
@@ -192,7 +337,9 @@ http://localhost:1234/index.php
 #  Auteur
 
 Projet réalisé dans le cadre du cursus PréIng2 SUPMECA.
+
 Membres: 
+
 -VERDINI Emily
 -GOMES Mathias
 
