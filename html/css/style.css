@@ -88,6 +88,7 @@ h2 {
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .card {
@@ -231,4 +232,77 @@ td, th {
 #password-counter {
     font-size: 13px;
     color: gray;
+}
+
+
+
+
+/*TABLETTE*/
+@media (max-width: 900px) {
+
+    .header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    nav a {
+        display: inline-block;
+        margin: 10px;
+    }
+
+    .cards {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .product-card {
+        width: 80%;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+    }
+}
+
+/*MOBILE*/
+@media (max-width: 600px) {
+
+    .header img {
+        height: 70px;
+    }
+
+    .flags {
+        width: 100%;
+        height: auto;
+    }
+
+    nav a {
+        display: block;
+        margin: 8px 0;
+    }
+
+    .hero {
+        padding: 40px 10px;
+    }
+
+    .hero h1 {
+        font-size: 26px;
+    }
+
+    input[type="text"] {
+        width: 90%;
+    }
+
+    section {
+        padding: 20px 10px;
+    }
+
+    .product-card {
+        width: 100%;
+    }
+
+    table {
+        width: 100%;
+        font-size: 12px;
+    }
 }
