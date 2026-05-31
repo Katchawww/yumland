@@ -9,7 +9,8 @@
         "phone": "06 12 34 56 78",
         "address": "Secreto",
         "statut": "aucun",
-        "remise": "aucun"
+        "remise": "aucun",
+        "blocked": false
     },
     {
         "id": 2,
@@ -21,7 +22,8 @@
         "phone": "07 12 34 56 78",
         "address": "Copacabana",
         "statut": "Cuisto 5 \u00e9toiles",
-        "remise": "aucun"
+        "remise": "aucun",
+        "blocked": false
     },
     {
         "id": 3,
@@ -33,7 +35,8 @@
         "phone": "06 21 43 65 87",
         "address": "3 rue de la blanche, Columbia",
         "statut": "VIP",
-        "remise": "aucun"
+        "remise": "aucun",
+        "blocked": false
     },
     {
         "id": 4,
@@ -45,7 +48,8 @@
         "phone": "06 11 22 33 44",
         "address": "5 rue du soleil levant, Rio De Janeiro",
         "statut": "aucun",
-        "remise": "aucun"
+        "remise": "aucun",
+        "blocked": false
     },
     {
         "id": 5,
@@ -57,7 +61,8 @@
         "phone": "06 22 22 22 22",
         "address": "8 rue du vagabond, la montagne rouge",
         "statut": "aucun",
-        "remise": "aucun"
+        "remise": "aucun",
+        "blocked": false
     },
     {
         "id": 6,
@@ -69,7 +74,8 @@
         "phone": "06 11 11 11 11",
         "address": "9 avenue du restaurant, Cergy-Pontoise",
         "statut": "aucun",
-        "remise": "aucun"
+        "remise": "aucun",
+        "blocked": false
     },
     {
         "id": 7,
@@ -80,8 +86,9 @@
         "surname": "Partinho",
         "phone": "06 33 33 33 33",
         "address": "10 rue du tunnel, sous le pont",
-        "statut": "aucun",
-        "remise": "aucun"
+        "statut": "Rei de la jungle",
+        "remise": "10%",
+        "blocked": false
     },
     {
         "id": 8,
@@ -93,6 +100,7 @@
         "phone": "06 12 34 56 87",
         "address": "Secreto",
         "statut": "aucun",
-        "remise": "aucun"
+        "remise": "aucun",
+        "blocked": false
     }
 ]
