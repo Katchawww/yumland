@@ -284,11 +284,13 @@ $categorie = $_GET["categorie"] ?? "";
         <p>Contact :
         <a href="mailto:contactcopacabanane@gmail.com">📧 contactcopacabanane@gmail.com</a>
         | <a href="https://www.instagram.com"> Instagram</a>
-         | <a href="https://www.tiktok.com/fr/">Tiktok</a></p> 
+         | <a href="https://www.tiktok.com/fr/">Tiktok</a></p>
+         <button onclick="toggleBananaMode()">🍌 Banana Mode</button> 
     </nav>  
 </footer>
 
 <script src="js/theme.js"></script>
 <script src="js/tri.js"></script>
+<script src="js/fun.js"></script>
 </body>
 </html>
